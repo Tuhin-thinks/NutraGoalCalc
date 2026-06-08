@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { ArrowLeft, Edit3, Plus, Trash2 } from "lucide-react"
+import { ArrowLeft, Edit3, Eye, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CategoryBadge } from "@/components/CategoryBadge"
 import { FoodForm } from "@/components/FoodForm"
+import { NutrientPreviewModal } from "@/components/NutrientPreviewModal"
 import { clearFoodCache } from "@/hooks/useFoods"
 import { getFoods, getFoodDetail, createFood, updateFood, deleteFood } from "@/lib/api"
 import { categoryColor } from "@/lib/colors"
@@ -21,6 +22,7 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
   const [editId, setEditId] = useState<string | null>(null)
   const [editData, setEditData] = useState<FoodDetail | undefined>(undefined)
   const [showForm, setShowForm] = useState(false)
+  const [previewFood, setPreviewFood] = useState<FoodSummary | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
@@ -129,6 +131,9 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
                   </div>
                   <CategoryBadge category={food.category} />
                   <div className="flex gap-1">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300" title="Preview nutrients" onClick={() => setPreviewFood(food)}>
+                      <Eye className="h-4 w-4" />
+                    </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-neutral-400 dark:text-neutral-500 hover:text-blue-500" title="Edit" onClick={() => openEdit(food)}>
                       <Edit3 className="h-4 w-4" />
                     </Button>
@@ -142,6 +147,9 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
           </div>
         )}
       </div>
+
+      {/* Nutrient preview modal */}
+      <NutrientPreviewModal food={previewFood} onClose={() => setPreviewFood(null)} />
 
       {/* Modal overlay for create/edit form */}
       {(showForm || editData) && (
