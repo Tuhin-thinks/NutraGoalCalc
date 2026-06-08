@@ -7,7 +7,7 @@ from pathlib import Path
 from sqlalchemy import Engine, Float, Integer, String, Text, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
-from nvc.models.catalogue import Catalogue, Unit
+from nvc.models.catalogue import Catalogue
 
 
 class Base(DeclarativeBase):
@@ -36,7 +36,7 @@ class FoodRecord(Base):
 
 CATALOGUE_NAME = "Body Recomposition Nutrition Tracker"
 CATALOGUE_VERSION = "1.0"
-UNITS_SUPPORTED: list[Unit] = ["g", "each", "bowl", "scoop", "cup", "tbsp", "tsp", "medium", "large"]
+UNITS_SUPPORTED: list[str] = ["g", "each", "bowl", "scoop", "cup", "tbsp", "tsp", "medium", "large"]
 
 
 def get_engine(db_path: Path) -> Engine:

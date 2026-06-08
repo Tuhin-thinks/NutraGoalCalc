@@ -1,11 +1,12 @@
 """Pydantic models for the nutrition catalogue (nutrition-values.json)."""
 
-from typing import Literal
-
 from pydantic import BaseModel, ConfigDict, Field
 
-Unit = Literal["g", "each", "bowl", "scoop", "cup", "tbsp", "tsp", "medium", "large"]
-Category = Literal["protein", "carbs", "fruit", "vegetable", "fiber", "fat"]
+Unit = str
+Category = str
+
+KNOWN_UNITS: list[Unit] = ["g", "each", "bowl", "scoop", "cup", "tbsp", "tsp", "medium", "large"]
+KNOWN_CATEGORIES: list[Category] = ["protein", "carbs", "fruit", "vegetable", "fiber", "fat"]
 
 
 class NutritionPerUnit(BaseModel):

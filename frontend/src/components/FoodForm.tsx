@@ -1,11 +1,9 @@
 import { useState, useCallback, useRef } from "react"
-import { Copy } from "lucide-react"
+import { Copy, Plus } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ALL_CATEGORIES } from "@/lib/api"
-import type { Category, Unit, FoodCreate, FoodDetail } from "@/lib/types"
-
-const UNITS: Unit[] = ["g", "each", "bowl", "scoop", "cup", "tbsp", "tsp", "medium", "large"]
+import { ALL_CATEGORIES, UNITS } from "@/lib/api"
+import type { FoodCreate, FoodDetail } from "@/lib/types"
 
 interface FoodFormProps {
   initial?: FoodDetail
@@ -15,8 +13,8 @@ interface FoodFormProps {
 
 function formToJson(data: {
   name: string
-  category: Category
-  unit: Unit
+  category: string
+  unit: string
   refWeight: number
   protein: number
   carbs: number
@@ -45,11 +43,14 @@ function formToJson(data: {
   )
 }
 
+const INITIAL_CATEGORIES = [...ALL_CATEGORIES]
+const INITIAL_UNITS = [...UNITS]
+
 export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
   const [mode, setMode] = useState<"form" | "json">("form")
   const [name, setName] = useState(initial?.name ?? "")
-  const [category, setCategory] = useState<Category>(initial?.category ?? "protein")
-  const [unit, setUnit] = useState<Unit>(initial?.unit ?? "g")
+  const [category, setCategory] = useState<string>(initial?.category ?? "protein")
+  const [unit, setUnit] = useState<string>(initial?.unit ?? "g")
   const [refWeight, setRefWeight] = useState(initial?.reference_weight_g ?? 100)
   const [protein, setProtein] = useState(initial?.protein_g ?? 0)
   const [carbs, setCarbs] = useState(initial?.carbs_g ?? 0)
@@ -75,6 +76,15 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
   const [jsonError, setJsonError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const jsonTextareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const [categories, setCategories] = useState<string[]>(INITIAL_CATEGORIES)
+  const [units, setUnits] = useState<string[]>(INITIAL_UNITS)
+  const [addingCategory, setAddingCategory] = useState(false)
+  const [addingUnit, setAddingUnit] = useState(false)
+  const [newCatName, setNewCatName] = useState("")
+  const [newUnitName, setNewUnitName] = useState("")
+  const catInputRef = useRef<HTMLInputElement>(null)
+  const unitInputRef = useRef<HTMLInputElement>(null)
 
   const handleModeChange = useCallback((newMode: "form" | "json") => {
     if (newMode === "json") {
@@ -152,6 +162,36 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
     setTimeout(() => setCopied(false), 1500)
   }, [mode, jsonText, name, category, unit, refWeight, protein, carbs, fat, calories, fiber, minInc, notes])
 
+  function confirmAddCat(value: string) {
+    const trimmed = value.trim()
+    if (trimmed && !categories.includes(trimmed)) {
+      setCategories((prev) => [...prev, trimmed])
+      setCategory(trimmed)
+    }
+    setAddingCategory(false)
+    setNewCatName("")
+  }
+
+  function confirmAddUnit(value: string) {
+    const trimmed = value.trim()
+    if (trimmed && !units.includes(trimmed)) {
+      setUnits((prev) => [...prev, trimmed])
+      setUnit(trimmed)
+    }
+    setAddingUnit(false)
+    setNewUnitName("")
+  }
+
+  const startAddCat = useCallback(() => {
+    setAddingCategory(true)
+    setTimeout(() => catInputRef.current?.focus(), 10)
+  }, [])
+
+  const startAddUnit = useCallback(() => {
+    setAddingUnit(true)
+    setTimeout(() => unitInputRef.current?.focus(), 10)
+  }, [])
+
   return (
     <div className="flex flex-col gap-4">
       {/* Mode toggle + copy button */}
@@ -189,15 +229,73 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1 block text-xs font-medium text-neutral-500">Category *</label>
-              <select value={category} onChange={(e) => setCategory(e.target.value as Category)} className="flex h-10 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                {ALL_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <div className="flex items-center gap-1.5">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="flex h-10 flex-1 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white outline-none focus:border-neutral-400"
+                >
+                  {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
+                {addingCategory ? (
+                  <Input
+                    ref={catInputRef}
+                    value={newCatName}
+                    onChange={(e) => setNewCatName(e.target.value)}
+                    onBlur={() => confirmAddCat(newCatName)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") confirmAddCat(newCatName)
+                      if (e.key === "Escape") { setAddingCategory(false); setNewCatName("") }
+                    }}
+                    placeholder="New category"
+                    className="h-10 w-32 text-sm"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={startAddCat}
+                    title="Add category"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-neutral-200 text-neutral-400 hover:border-neutral-300 hover:text-neutral-600"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
             </div>
             <div>
               <label className="mb-1 block text-xs font-medium text-neutral-500">Unit *</label>
-              <select value={unit} onChange={(e) => setUnit(e.target.value as Unit)} className="flex h-10 w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
-              </select>
+              <div className="flex items-center gap-1.5">
+                <select
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
+                  className="flex h-10 flex-1 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white outline-none focus:border-neutral-400"
+                >
+                  {units.map((u) => <option key={u} value={u}>{u}</option>)}
+                </select>
+                {addingUnit ? (
+                  <Input
+                    ref={unitInputRef}
+                    value={newUnitName}
+                    onChange={(e) => setNewUnitName(e.target.value)}
+                    onBlur={() => confirmAddUnit(newUnitName)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") confirmAddUnit(newUnitName)
+                      if (e.key === "Escape") { setAddingUnit(false); setNewUnitName("") }
+                    }}
+                    placeholder="New unit"
+                    className="h-10 w-32 text-sm"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={startAddUnit}
+                    title="Add unit"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-neutral-200 text-neutral-400 hover:border-neutral-300 hover:text-neutral-600"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
