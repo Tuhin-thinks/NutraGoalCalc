@@ -38,7 +38,7 @@ export function statusColor(current: number, min: number, max: number): string {
   const range = max - min
   if (range <= 0) return "#ef4444"
 
-  const transitionRatio = 0.15
+  const transitionRatio = 0.25
   const transitionSize = range * transitionRatio
 
   if (current < min) return "#ef4444"
