@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react"
+import { Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { FoodPicker } from "@/components/FoodPicker"
@@ -33,6 +34,7 @@ interface HomePageProps {
 
 export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps) {
   const [items, setItems] = useState<ItemEntry[]>(initItems)
+  const [selectedDate, setSelectedDate] = useState(getToday())
   const { targets, weightInputs, needsWeights, refresh } = useTargets()
   const [showWeightsModal, setShowWeightsModal] = useState(false)
   const importInputRef = useRef<HTMLInputElement>(null)
@@ -139,14 +141,20 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
   }, [])
 
   const handleSaveToDiary = useCallback(() => {
-    const today = getToday()
     const diary = loadDiary()
-    if (diary[today] && diary[today].items.length > 0) {
-      const overwrite = window.confirm("Replace existing diary entry for today?")
+    if (diary[selectedDate] && diary[selectedDate].items.length > 0) {
+      const overwrite = window.confirm(`Replace existing diary entry for ${selectedDate}?`)
       if (!overwrite) return
     }
-    saveDiaryEntry(today, items)
-    toast.success("Saved to diary")
+    saveDiaryEntry(selectedDate, items)
+    toast.success(`Saved to diary for ${selectedDate}`)
+  }, [items, selectedDate])
+
+  const handleClearAll = useCallback(() => {
+    if (items.length === 0) return
+    if (!window.confirm("Clear all food items?")) return
+    setItems([])
+    toast.success("All items cleared")
   }, [items])
 
   return (
@@ -170,6 +178,12 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
         <div className="flex items-center gap-2">
           <span className="text-xl">🥗</span>
           <h1 className="text-lg font-bold text-neutral-800 dark:text-neutral-200">NutraGoalCalc</h1>
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="ml-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-2 py-0.5 text-xs text-neutral-500 dark:text-neutral-400 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500"
+          />
         </div>
         <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
           <ThemeToggle />
@@ -198,6 +212,12 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
           {items.length > 0 && (
             <button onClick={handleSaveToDiary} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
               Save to Diary
+            </button>
+          )}
+          {items.length > 0 && (
+            <button onClick={handleClearAll} className="inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-red-400 hover:text-red-600">
+              <Trash2 className="h-3.5 w-3.5" />
+              Clear All
             </button>
           )}
           <button onClick={handleExport} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
