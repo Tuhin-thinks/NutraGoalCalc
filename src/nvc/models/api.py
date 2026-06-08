@@ -1,4 +1,4 @@
-"""API DTOs for catalogue read endpoints and calculation."""
+"""API DTOs for catalogue read/write endpoints and calculation."""
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -7,7 +7,47 @@ from nvc.models.catalogue import (
     DailyTargets,
     Food,
     NutritionPerUnit,
+    Category,
+    Unit,
 )
+
+
+class FoodCreate(BaseModel):
+    """Payload for creating or fully updating a food entry."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(min_length=1, max_length=255)
+    category: Category
+    unit: Unit
+    reference_weight_g: float = Field(gt=0)
+    protein_g: float = Field(ge=0)
+    carbs_g: float = Field(ge=0)
+    fat_g: float = Field(ge=0)
+    calories_kcal: float = Field(gt=0)
+    fiber_g: float = 0.0
+    min_increment: float = 1.0
+    notes: str | None = None
+
+
+class FoodDetail(BaseModel):
+    """Full food projection with nutrition data."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    name: str
+    category: str
+    unit: str
+    reference_weight_g: float
+    protein_g: float
+    carbs_g: float
+    fat_g: float
+    calories_kcal: float
+    fiber_g: float
+    min_increment: float
+    is_custom: bool
+    notes: str | None = None
 
 
 class CategorySummary(BaseModel):
@@ -29,6 +69,7 @@ class FoodSummary(BaseModel):
     category: str
     unit: str
     min_increment: float
+    is_custom: bool = False
 
 
 class FoodsListResponse(BaseModel):

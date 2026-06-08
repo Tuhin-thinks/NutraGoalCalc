@@ -1,6 +1,6 @@
 """Repository layer for the catalogue."""
 
-from nvc.repositories.json_repository import JSONCatalogueRepository
 from nvc.repositories.protocol import NutritionRepository
+from nvc.repositories.sql_repository import SQLAlchemyCatalogueRepository
 
-__all__ = ["JSONCatalogueRepository", "NutritionRepository"]
+__all__ = ["SQLAlchemyCatalogueRepository", "NutritionRepository"]

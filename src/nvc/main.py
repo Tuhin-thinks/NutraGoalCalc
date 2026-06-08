@@ -7,27 +7,28 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from nvc.config import Settings, settings
-from nvc.repositories import JSONCatalogueRepository, NutritionRepository
+from nvc.database import get_engine, init_db, seed_from_json
+from nvc.repositories import SQLAlchemyCatalogueRepository, NutritionRepository
 from nvc.routers import calculate_router, foods_router, health_router, targets_router
 from nvc.services import DefaultNutritionCalculator, NutritionCalculator
 
 
 def create_app(config: Settings = settings) -> FastAPI:
-    """Build the FastAPI app, loading the catalogue once during startup.
+    """Build the FastAPI app, initialising the database during startup."""
 
-    The loaded `NutritionRepository` is stashed on `app.state.repository` and
-    served to routers via the `get_repository` dependency.
-    """
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-        app.state.repository: NutritionRepository = JSONCatalogueRepository(config.catalogue_path)
+        engine = get_engine(config.database_path)
+        init_db(engine)
+        seed_from_json(engine, config.catalogue_path)
+        app.state.repository: NutritionRepository = SQLAlchemyCatalogueRepository(engine)
         app.state.calculator: NutritionCalculator = DefaultNutritionCalculator()
         yield
 
     app = FastAPI(
         title="NutraGoalCalc Backend",
         version="0.1.0",
-        description="Single-user FastAPI service for calculating nutritional values from a static food catalogue.",
+        description="Single-user FastAPI service for calculating nutritional values from a food catalogue.",
         lifespan=lifespan,
     )
 
@@ -35,7 +36,7 @@ def create_app(config: Settings = settings) -> FastAPI:
         CORSMiddleware,
         allow_origins=config.cors_origins,
         allow_credentials=False,
-        allow_methods=["GET", "POST"],
+        allow_methods=["GET", "POST", "PUT", "DELETE"],
         allow_headers=["*"],
     )
 

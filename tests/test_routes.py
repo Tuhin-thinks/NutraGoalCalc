@@ -23,11 +23,15 @@ class TestFoods:
         assert resp.status_code == 200
         for food in resp.json()["foods"]:
             assert food["category"] == "protein"
+            assert "is_custom" in food
 
     def test_get_by_id(self, client: TestClient):
         resp = client.get("/api/v1/foods/chicken_breast_100g")
         assert resp.status_code == 200
-        assert resp.json()["id"] == "chicken_breast_100g"
+        data = resp.json()
+        assert data["id"] == "chicken_breast_100g"
+        assert "protein_g" in data
+        assert "is_custom" in data
 
     def test_get_by_id_not_found(self, client: TestClient):
         resp = client.get("/api/v1/foods/nonexistent")
@@ -46,6 +50,119 @@ class TestFoods:
         data = resp.json()
         assert "daily_targets" in data
         assert "metadata" in data
+
+
+class TestFoodCRUD:
+    def test_create_food(self, client: TestClient):
+        resp = client.post("/api/v1/foods", json={
+            "name": "My Custom Food",
+            "category": "protein",
+            "unit": "g",
+            "reference_weight_g": 100,
+            "protein_g": 25,
+            "carbs_g": 5,
+            "fat_g": 3,
+            "calories_kcal": 150,
+            "fiber_g": 0,
+            "min_increment": 10,
+            "notes": "Homemade",
+        })
+        assert resp.status_code == 201
+        data = resp.json()
+        assert data["name"] == "My Custom Food"
+        assert data["is_custom"] is True
+        assert data["id"].startswith("custom_")
+        assert data["protein_g"] == 25
+
+    def test_create_food_defaults(self, client: TestClient):
+        resp = client.post("/api/v1/foods", json={
+            "name": "Simple Food",
+            "category": "carbs",
+            "unit": "g",
+            "reference_weight_g": 50,
+            "protein_g": 5,
+            "carbs_g": 20,
+            "fat_g": 1,
+            "calories_kcal": 110,
+        })
+        assert resp.status_code == 201
+        data = resp.json()
+        assert data["fiber_g"] == 0.0
+        assert data["min_increment"] == 1.0
+        assert data["notes"] is None
+
+    def test_create_food_validation(self, client: TestClient):
+        resp = client.post("/api/v1/foods", json={
+            "name": "",
+            "category": "protein",
+            "unit": "g",
+            "reference_weight_g": 100,
+            "protein_g": 25,
+            "carbs_g": 5,
+            "fat_g": 3,
+            "calories_kcal": 150,
+        })
+        assert resp.status_code == 422
+
+    def test_update_food(self, client: TestClient):
+        resp = client.put("/api/v1/foods/custom_test_1", json={
+            "name": "Updated Custom Food",
+            "category": "protein",
+            "unit": "g",
+            "reference_weight_g": 100,
+            "protein_g": 15,
+            "carbs_g": 8,
+            "fat_g": 3,
+            "calories_kcal": 120,
+            "fiber_g": 2,
+            "min_increment": 10,
+            "notes": "Updated notes",
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["name"] == "Updated Custom Food"
+        assert data["protein_g"] == 15
+
+    def test_update_food_not_found(self, client: TestClient):
+        resp = client.put("/api/v1/foods/nonexistent", json={
+            "name": "Nope",
+            "category": "protein",
+            "unit": "g",
+            "reference_weight_g": 100,
+            "protein_g": 10,
+            "carbs_g": 5,
+            "fat_g": 2,
+            "calories_kcal": 80,
+            "fiber_g": 0,
+            "min_increment": 1,
+            "notes": None,
+        })
+        assert resp.status_code == 404
+
+    def test_delete_food(self, client: TestClient):
+        resp = client.delete("/api/v1/foods/custom_test_1")
+        assert resp.status_code == 204
+        resp = client.get("/api/v1/foods/custom_test_1")
+        assert resp.status_code == 404
+
+    def test_delete_food_not_found(self, client: TestClient):
+        resp = client.delete("/api/v1/foods/nonexistent")
+        assert resp.status_code == 404
+
+    def test_food_appears_in_list_after_create(self, client: TestClient):
+        client.post("/api/v1/foods", json={
+            "name": "New Food",
+            "category": "fruit",
+            "unit": "each",
+            "reference_weight_g": 100,
+            "protein_g": 1,
+            "carbs_g": 20,
+            "fat_g": 0,
+            "calories_kcal": 80,
+        })
+        resp = client.get("/api/v1/foods")
+        names = [f["name"] for f in resp.json()["foods"]]
+        assert "New Food" in names
 
 
 class TestCalculate:

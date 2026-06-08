@@ -1,7 +1,8 @@
-"""Repository interface for accessing the static food catalogue."""
+"""Repository interface for accessing the food catalogue."""
 
 from typing import Protocol
 
+from nvc.models.api import FoodCreate
 from nvc.models.catalogue import (
     CatalogueMetadata,
     DailyTargets,
@@ -10,28 +11,35 @@ from nvc.models.catalogue import (
 
 
 class NutritionRepository(Protocol):
-    """Read-only access to the food catalogue loaded from `nutrition-values.json`.
+    """Access to the food catalogue (read + write).
 
     Implementations are expected to be safe to call concurrently after the
     initial load completes.
     """
 
     def list_foods(self, category: str | None = None) -> list[Food]:
-        """Return all foods, optionally filtered by `category` (case-insensitive)."""
         ...
 
     def get_food(self, food_id: str) -> Food:
-        """Return the food with the given id, or raise `KeyError`."""
         ...
 
     def categories(self) -> dict[str, int]:
-        """Return a mapping of category name to food count (sorted by name)."""
         ...
 
     def metadata(self) -> CatalogueMetadata:
-        """Return the catalogue's metadata block (name, version, units, targets)."""
         ...
 
     def targets(self) -> DailyTargets:
-        """Return the daily macro targets for convenience."""
+        ...
+
+    def create_food(self, data: FoodCreate) -> Food:
+        """Create a new custom food entry. Returns the created Food with auto-generated id."""
+        ...
+
+    def update_food(self, food_id: str, data: FoodCreate) -> Food:
+        """Full replacement update of a food entry. Raises KeyError if not found."""
+        ...
+
+    def delete_food(self, food_id: str) -> None:
+        """Delete a food entry. Raises KeyError if not found."""
         ...

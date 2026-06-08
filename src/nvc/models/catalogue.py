@@ -72,6 +72,7 @@ class Food(BaseModel):
     reference_weight_g: float
     nutrition_per_unit: NutritionPerUnit
     min_increment: float = 1.0
+    is_custom: bool = False
     notes: str | None = None
 
 

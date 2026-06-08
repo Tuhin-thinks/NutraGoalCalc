@@ -22,7 +22,11 @@ function initItems(): ItemEntry[] {
   return saved
 }
 
-export function HomePage() {
+interface HomePageProps {
+  onNavigateToFoods: () => void
+}
+
+export function HomePage({ onNavigateToFoods }: HomePageProps) {
   const [items, setItems] = useState<ItemEntry[]>(initItems)
   const { targets } = useTargets()
 
@@ -83,6 +87,9 @@ export function HomePage() {
               {items.length} item{items.length !== 1 ? "s" : ""}
             </span>
           )}
+          <button onClick={onNavigateToFoods} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+            Manage Foods
+          </button>
         </div>
       </header>
 

@@ -4,6 +4,10 @@ import type { FoodSummary, Category } from "@/lib/types"
 
 let cachedFoods: FoodSummary[] | null = null
 
+export function clearFoodCache() {
+  cachedFoods = null
+}
+
 export function useFoods(category?: string) {
   const [foods, setFoods] = useState<FoodSummary[]>(cachedFoods ?? [])
   const [loading, setLoading] = useState(!cachedFoods)
