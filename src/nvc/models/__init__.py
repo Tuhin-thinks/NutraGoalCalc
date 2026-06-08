@@ -15,6 +15,8 @@ from nvc.models.api import (
     FoodsListResponse,
     ItemBreakdown,
     NutritionTotals,
+    TargetComparisonEntry,
+    TargetComparisonResponse,
     TargetsResponse,
 )
 from nvc.models.catalogue import (
@@ -45,6 +47,8 @@ __all__ = [
     "MacroRange",
     "NutritionPerUnit",
     "NutritionTotals",
+    "TargetComparisonEntry",
+    "TargetComparisonResponse",
     "TargetsResponse",
     "Unit",
 ]

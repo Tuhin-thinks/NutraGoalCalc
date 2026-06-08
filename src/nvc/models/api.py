@@ -125,3 +125,32 @@ class CalculationResponse(BaseModel):
 
     totals: NutritionTotals
     items: list[ItemBreakdown]
+
+
+class TargetComparisonEntry(BaseModel):
+    """Comparison of a single nutrient against its daily target range.
+
+    `percent_of_midpoint` is ``current / ((min + max) / 2) * 100``.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    nutrient: str
+    current: float
+    min: float
+    max: float
+    percent_of_midpoint: float
+
+
+class TargetComparisonResponse(BaseModel):
+    """Response envelope for `POST /calculate/with-targets`.
+
+    Augments the standard calculation response with a per-nutrient comparison
+    against the daily macro targets defined in the catalogue metadata.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    totals: NutritionTotals
+    items: list[ItemBreakdown]
+    target_comparison: list[TargetComparisonEntry]
