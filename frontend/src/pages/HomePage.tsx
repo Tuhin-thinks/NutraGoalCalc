@@ -1,12 +1,14 @@
-import { useState, useMemo, useCallback, useEffect } from "react"
+import { useState, useMemo, useCallback, useEffect, useRef } from "react"
+import { toast } from "sonner"
 import { FoodPicker } from "@/components/FoodPicker"
 import { ItemsTable, type ItemEntry } from "@/components/ItemsTable"
 import { ResultsPanel } from "@/components/ResultsPanel"
 import { WeightInputModal } from "@/components/WeightInputModal"
 import { useDebouncedCalculate } from "@/hooks/useDebouncedCalculate"
 import { useTargets } from "@/hooks/useTargets"
-import { loadItems, saveItems } from "@/lib/storage"
-import type { FoodSummary, CalculationItem, WeightInputs } from "@/lib/types"
+import { loadItems, saveItems, exportAllData, importAllData } from "@/lib/storage"
+import { saveDiaryEntry, getToday, loadDiary } from "@/lib/diary"
+import type { FoodSummary, CalculationItem, WeightInputs, TargetComparisonResponse } from "@/lib/types"
 
 let idCounter = 0
 function nextId() {
@@ -25,12 +27,15 @@ function initItems(): ItemEntry[] {
 
 interface HomePageProps {
   onNavigateToFoods: () => void
+  onNavigateToDiary: () => void
 }
 
-export function HomePage({ onNavigateToFoods }: HomePageProps) {
+export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps) {
   const [items, setItems] = useState<ItemEntry[]>(initItems)
   const { targets, weightInputs, needsWeights, refresh } = useTargets()
   const [showWeightsModal, setShowWeightsModal] = useState(false)
+  const importInputRef = useRef<HTMLInputElement>(null)
+  const [resultCache, setResultCache] = useState<TargetComparisonResponse | null>(null)
 
   const calculationItems: CalculationItem[] = useMemo(
     () => items.map((it) => ({ food_id: it.food.id, quantity: it.quantity })),
@@ -38,6 +43,10 @@ export function HomePage({ onNavigateToFoods }: HomePageProps) {
   )
 
   const { result, loading, error } = useDebouncedCalculate(calculationItems, targets)
+
+  useEffect(() => {
+    if (result) setResultCache(result)
+  }, [result])
 
   const sorted: ItemEntry[] = useMemo(
     () => [...items].sort((a, b) => b.lastTouched - a.lastTouched),
@@ -91,8 +100,63 @@ export function HomePage({ onNavigateToFoods }: HomePageProps) {
     setShowWeightsModal(false)
   }, [refresh])
 
+  const handleExport = useCallback(() => {
+    const data = exportAllData(resultCache)
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "nutragocalc-export.json"
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success("Data exported")
+  }, [resultCache])
+
+  const handleImport = useCallback(() => {
+    importInputRef.current?.click()
+  }, [])
+
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result as string)
+        if (importAllData(data)) {
+          toast.success("Data imported — reloading…")
+          setTimeout(() => window.location.reload(), 500)
+        } else {
+          toast.error("Invalid export file")
+        }
+      } catch {
+        toast.error("Failed to parse file")
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ""
+  }, [])
+
+  const handleSaveToDiary = useCallback(() => {
+    const today = getToday()
+    const diary = loadDiary()
+    if (diary[today] && diary[today].items.length > 0) {
+      const overwrite = window.confirm("Replace existing diary entry for today?")
+      if (!overwrite) return
+    }
+    saveDiaryEntry(today, items)
+    toast.success("Saved to diary")
+  }, [items])
+
   return (
     <div className="flex h-[calc(100dvh-4rem)] flex-col">
+      <input
+        ref={importInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleFileChange}
+        className="hidden"
+      />
       <WeightInputModal
         open={showWeightsModal}
         initial={weightInputs}
@@ -106,7 +170,7 @@ export function HomePage({ onNavigateToFoods }: HomePageProps) {
           <span className="text-xl">🥗</span>
           <h1 className="text-lg font-bold text-neutral-800">NutraGoalCalc</h1>
         </div>
-        <div className="flex items-center gap-3 text-sm text-neutral-500">
+        <div className="flex items-center gap-2 text-sm text-neutral-500">
           {weightInputs && (
             <button
               onClick={() => setShowWeightsModal(true)}
@@ -129,6 +193,20 @@ export function HomePage({ onNavigateToFoods }: HomePageProps) {
               {items.length} item{items.length !== 1 ? "s" : ""}
             </span>
           )}
+          {items.length > 0 && (
+            <button onClick={handleSaveToDiary} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+              Save to Diary
+            </button>
+          )}
+          <button onClick={handleExport} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+            Export
+          </button>
+          <button onClick={handleImport} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+            Import
+          </button>
+          <button onClick={onNavigateToDiary} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+            Diary
+          </button>
           <button onClick={onNavigateToFoods} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
             Manage Foods
           </button>

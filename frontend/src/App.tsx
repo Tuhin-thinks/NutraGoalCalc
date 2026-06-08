@@ -2,14 +2,15 @@ import { useState, useEffect } from "react"
 import { Toaster } from "sonner"
 import { HomePage } from "@/pages/HomePage"
 import { CustomFoodsPage } from "@/pages/CustomFoodsPage"
+import { DiaryPage } from "@/pages/DiaryPage"
 
-type Page = "tracker" | "foods"
+type Page = "tracker" | "foods" | "diary"
 const PAGE_KEY = "nutragocalc_page"
 
 function loadPage(): Page {
   try {
     const saved = localStorage.getItem(PAGE_KEY)
-    if (saved === "tracker" || saved === "foods") return saved
+    if (saved === "tracker" || saved === "foods" || saved === "diary") return saved
   } catch { /* ignore */ }
   return "tracker"
 }
@@ -23,10 +24,17 @@ export default function App() {
 
   return (
     <>
-      {page === "tracker" ? (
-        <HomePage onNavigateToFoods={() => setPage("foods")} />
-      ) : (
+      {page === "tracker" && (
+        <HomePage
+          onNavigateToFoods={() => setPage("foods")}
+          onNavigateToDiary={() => setPage("diary")}
+        />
+      )}
+      {page === "foods" && (
         <CustomFoodsPage onBack={() => setPage("tracker")} />
+      )}
+      {page === "diary" && (
+        <DiaryPage onBack={() => setPage("tracker")} />
       )}
       <Toaster
         position="bottom-center"
