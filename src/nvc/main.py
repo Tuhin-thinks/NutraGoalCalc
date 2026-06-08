@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from nvc.config import Settings, settings
 from nvc.database import get_engine, init_db, seed_from_json
 from nvc.repositories import SQLAlchemyCatalogueRepository, NutritionRepository
-from nvc.routers import calculate_router, foods_router, health_router, targets_router
+from nvc.routers import calculate_router, foods_router, health_router
 from nvc.services import DefaultNutritionCalculator, NutritionCalculator
 
 
@@ -43,7 +43,6 @@ def create_app(config: Settings = settings) -> FastAPI:
     api_prefix = "/api/v1"
     app.include_router(health_router, prefix=api_prefix)
     app.include_router(foods_router, prefix=api_prefix)
-    app.include_router(targets_router, prefix=api_prefix)
     app.include_router(calculate_router, prefix=api_prefix)
 
     return app

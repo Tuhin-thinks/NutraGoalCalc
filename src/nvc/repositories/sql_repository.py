@@ -10,15 +10,12 @@ from nvc.database import (
     CATALOGUE_NAME,
     CATALOGUE_VERSION,
     UNITS_SUPPORTED,
-    DailyTargetRecord,
     FoodRecord,
 )
 from nvc.models.api import FoodCreate
 from nvc.models.catalogue import (
     CatalogueMetadata,
-    DailyTargets,
     Food,
-    MacroRange,
     NutritionPerUnit,
 )
 
@@ -76,20 +73,7 @@ class SQLAlchemyCatalogueRepository:
         return CatalogueMetadata(
             name=CATALOGUE_NAME,
             version=CATALOGUE_VERSION,
-            daily_targets=self.targets(),
             units_supported=UNITS_SUPPORTED,
-        )
-
-    def targets(self) -> DailyTargets:
-        with Session(self.engine) as session:
-            record = session.get(DailyTargetRecord, 1)
-        if record is None:
-            raise RuntimeError("Daily targets not seeded")
-        return DailyTargets(
-            calories_kcal=MacroRange(min=record.calories_min, max=record.calories_max),
-            protein_g=MacroRange(min=record.protein_min, max=record.protein_max),
-            carbs_g=MacroRange(min=record.carbs_min, max=record.carbs_max),
-            fat_g=MacroRange(min=record.fat_min, max=record.fat_max),
         )
 
     def create_food(self, data: FoodCreate) -> Food:

@@ -3,8 +3,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 from nvc.models.catalogue import (
-    CatalogueMetadata,
-    DailyTargets,
     Food,
     NutritionPerUnit,
     Category,
@@ -90,15 +88,6 @@ class CategoriesResponse(BaseModel):
     categories: list[CategorySummary]
 
 
-class TargetsResponse(BaseModel):
-    """Response envelope for `GET /targets`."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    metadata: CatalogueMetadata
-    daily_targets: DailyTargets
-
-
 class CalculationItem(BaseModel):
     """A single food entry in a calculation request.
 
@@ -169,30 +158,4 @@ class CalculationResponse(BaseModel):
     items: list[ItemBreakdown]
 
 
-class TargetComparisonEntry(BaseModel):
-    """Comparison of a single nutrient against its daily target range.
 
-    `percent_of_midpoint` is ``current / ((min + max) / 2) * 100``.
-    """
-
-    model_config = ConfigDict(extra="forbid")
-
-    nutrient: str
-    current: float
-    min: float
-    max: float
-    percent_of_midpoint: float
-
-
-class TargetComparisonResponse(BaseModel):
-    """Response envelope for `POST /calculate/with-targets`.
-
-    Augments the standard calculation response with a per-nutrient comparison
-    against the daily macro targets defined in the catalogue metadata.
-    """
-
-    model_config = ConfigDict(extra="forbid")
-
-    totals: NutritionTotals
-    items: list[ItemBreakdown]
-    target_comparison: list[TargetComparisonEntry]

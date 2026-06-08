@@ -7,7 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 
-from nvc.database import DailyTargetRecord, FoodRecord, init_db
+from nvc.database import FoodRecord, init_db
 from nvc.main import create_app
 from nvc.repositories import SQLAlchemyCatalogueRepository
 from nvc.services import DefaultNutritionCalculator
@@ -83,14 +83,6 @@ def engine(db_path):
                     notes="test notes", is_custom=1, created_at=now, updated_at=now,
                 ),
             ],
-        )
-        conn.execute(
-            DailyTargetRecord.__table__.insert(),
-            dict(
-                id=1, calories_min=1800, calories_max=2100,
-                protein_min=110, protein_max=130, carbs_min=160, carbs_max=220,
-                fat_min=50, fat_max=65,
-            ),
         )
     return eng
 

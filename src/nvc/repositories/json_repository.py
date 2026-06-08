@@ -7,7 +7,6 @@ from pathlib import Path
 from nvc.models.catalogue import (
     Catalogue,
     CatalogueMetadata,
-    DailyTargets,
     Food,
 )
 from nvc.repositories.protocol import NutritionRepository
@@ -54,6 +53,4 @@ class JSONCatalogueRepository:
         """Return the catalogue's metadata block (name, version, units, targets)."""
         return self._catalogue.metadata
 
-    def targets(self) -> DailyTargets:
-        """Return the daily macro targets for convenience."""
-        return self._catalogue.metadata.daily_targets
+

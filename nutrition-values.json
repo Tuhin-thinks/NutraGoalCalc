@@ -42,7 +42,8 @@
         "protein_g": 30,
         "carbs_g": 0,
         "fat_g": 3.5,
-        "calories_kcal": 165
+        "calories_kcal": 165,
+        "fiber_g": 0
       },
       "notes": "Corrected from file: 30g protein per 100g",
       "min_increment": 50
@@ -57,7 +58,8 @@
         "protein_g": 24,
         "carbs_g": 0,
         "fat_g": 8.5,
-        "calories_kcal": 190
+        "calories_kcal": 190,
+        "fiber_g": 0
       },
       "notes": "File: 48g protein per 200g → 24g per 100g",
       "min_increment": 50
@@ -72,7 +74,8 @@
         "protein_g": 21,
         "carbs_g": 0,
         "fat_g": 7,
-        "calories_kcal": 170
+        "calories_kcal": 170,
+        "fiber_g": 0
       },
       "notes": "File: 42g protein per 200g → 21g per 100g",
       "min_increment": 50
@@ -87,7 +90,8 @@
         "protein_g": 20,
         "carbs_g": 0,
         "fat_g": 1.5,
-        "calories_kcal": 100
+        "calories_kcal": 100,
+        "fiber_g": 0
       },
       "notes": "File: 40g protein per 200g → 20g per 100g",
       "min_increment": 50
@@ -102,7 +106,8 @@
         "protein_g": 6.3,
         "carbs_g": 0.6,
         "fat_g": 5,
-        "calories_kcal": 72
+        "calories_kcal": 72,
+        "fiber_g": 0
       },
       "notes": "Corrected from file (6.3g protein per large egg)",
       "min_increment": 0.5
@@ -117,7 +122,8 @@
         "protein_g": 3.6,
         "carbs_g": 0.2,
         "fat_g": 0,
-        "calories_kcal": 17
+        "calories_kcal": 17,
+        "fiber_g": 0
       },
       "min_increment": 0.5
     },
@@ -131,7 +137,8 @@
         "protein_g": 10,
         "carbs_g": 2,
         "fat_g": 5,
-        "calories_kcal": 90
+        "calories_kcal": 90,
+        "fiber_g": 0.3
       },
       "notes": "Corrected from file: 20g protein per 200g → 10g per 100g",
       "min_increment": 50
@@ -146,7 +153,8 @@
         "protein_g": 12,
         "carbs_g": 3.2,
         "fat_g": 5.6,
-        "calories_kcal": 120
+        "calories_kcal": 120,
+        "fiber_g": 1.5
       },
       "notes": "File: 30g protein per 250g → 12g per 100g",
       "min_increment": 50
@@ -161,7 +169,8 @@
         "protein_g": 25,
         "carbs_g": 1.5,
         "fat_g": 0.5,
-        "calories_kcal": 115
+        "calories_kcal": 115,
+        "fiber_g": 0
       },
       "min_increment": 0.5
     },
@@ -175,7 +184,8 @@
         "protein_g": 12,
         "carbs_g": 30,
         "fat_g": 10,
-        "calories_kcal": 250
+        "calories_kcal": 250,
+        "fiber_g": 8
       },
       "notes": "Corrected from file: 12g protein, not 15g",
       "min_increment": 0.5
@@ -190,7 +200,8 @@
         "protein_g": 14,
         "carbs_g": 35,
         "fat_g": 5,
-        "calories_kcal": 270
+        "calories_kcal": 270,
+        "fiber_g": 10
       },
       "min_increment": 0.5
     },
@@ -204,7 +215,8 @@
         "protein_g": 10,
         "carbs_g": 30,
         "fat_g": 3,
-        "calories_kcal": 180
+        "calories_kcal": 180,
+        "fiber_g": 6
       },
       "min_increment": 25
     },
@@ -218,7 +230,8 @@
         "protein_g": 6,
         "carbs_g": 15,
         "fat_g": 3,
-        "calories_kcal": 120
+        "calories_kcal": 120,
+        "fiber_g": 3
       },
       "notes": "File: 12g protein for 2 → 6g per chilla",
       "min_increment": 0.5
@@ -233,7 +246,8 @@
         "protein_g": 3,
         "carbs_g": 35,
         "fat_g": 0.3,
-        "calories_kcal": 190
+        "calories_kcal": 190,
+        "fiber_g": 0.6
       },
       "notes": "Corrected from file: 35g carbs, not 45g",
       "min_increment": 0.25
@@ -248,7 +262,8 @@
         "protein_g": 4,
         "carbs_g": 20,
         "fat_g": 2.5,
-        "calories_kcal": 110
+        "calories_kcal": 110,
+        "fiber_g": 3
       },
       "min_increment": 0.5
     },
@@ -262,7 +277,8 @@
         "protein_g": 8,
         "carbs_g": 32,
         "fat_g": 5,
-        "calories_kcal": 190
+        "calories_kcal": 190,
+        "fiber_g": 5
       },
       "min_increment": 25
     },
@@ -276,7 +292,8 @@
         "protein_g": 1.3,
         "carbs_g": 27,
         "fat_g": 0.4,
-        "calories_kcal": 105
+        "calories_kcal": 105,
+        "fiber_g": 3
       },
       "min_increment": 0.5
     },
@@ -290,7 +307,8 @@
         "protein_g": 0,
         "carbs_g": 15,
         "fat_g": 0,
-        "calories_kcal": 60
+        "calories_kcal": 60,
+        "fiber_g": 1
       },
       "min_increment": 50
     },
@@ -304,7 +322,8 @@
         "protein_g": 0,
         "carbs_g": 20,
         "fat_g": 0,
-        "calories_kcal": 80
+        "calories_kcal": 80,
+        "fiber_g": 5
       },
       "min_increment": 50
     },
@@ -318,7 +337,8 @@
         "protein_g": 2,
         "carbs_g": 12,
         "fat_g": 0.5,
-        "calories_kcal": 70
+        "calories_kcal": 70,
+        "fiber_g": 5
       },
       "notes": "File: 4g protein for 2 guavas → 2g per guava",
       "min_increment": 0.5
@@ -333,7 +353,8 @@
         "protein_g": 1,
         "carbs_g": 8,
         "fat_g": 0,
-        "calories_kcal": 50
+        "calories_kcal": 50,
+        "fiber_g": 4
       },
       "min_increment": 0.5
     },
@@ -347,7 +368,8 @@
         "protein_g": 2,
         "carbs_g": 5,
         "fat_g": 1.5,
-        "calories_kcal": 50
+        "calories_kcal": 50,
+        "fiber_g": 3
       },
       "notes": "File: 80-120kcal per 200g → ~50kcal per 100g",
       "min_increment": 50
@@ -362,7 +384,8 @@
         "protein_g": 0,
         "carbs_g": 4,
         "fat_g": 0,
-        "calories_kcal": 15
+        "calories_kcal": 15,
+        "fiber_g": 0.5
       },
       "min_increment": 50
     },
@@ -376,7 +399,8 @@
         "protein_g": 1,
         "carbs_g": 10,
         "fat_g": 0.2,
-        "calories_kcal": 41
+        "calories_kcal": 41,
+        "fiber_g": 2.8
       },
       "min_increment": 50
     },
@@ -390,7 +414,8 @@
         "protein_g": 3,
         "carbs_g": 3.5,
         "fat_g": 0.5,
-        "calories_kcal": 30
+        "calories_kcal": 30,
+        "fiber_g": 3.5
       },
       "notes": "File: 40kcal per 150g → ~27kcal per 100g, adjusted slightly",
       "min_increment": 50
@@ -405,7 +430,8 @@
         "protein_g": 3,
         "carbs_g": 7,
         "fat_g": 0.4,
-        "calories_kcal": 35
+        "calories_kcal": 35,
+        "fiber_g": 3
       },
       "min_increment": 50
     },
@@ -449,7 +475,8 @@
         "protein_g": 8,
         "carbs_g": 6,
         "fat_g": 15,
-        "calories_kcal": 170
+        "calories_kcal": 170,
+        "fiber_g": 2.5
       },
       "min_increment": 15
     },
@@ -463,7 +490,8 @@
         "protein_g": 0,
         "carbs_g": 0,
         "fat_g": 4.5,
-        "calories_kcal": 40
+        "calories_kcal": 40,
+        "fiber_g": 0
       },
       "min_increment": 0.25
     }

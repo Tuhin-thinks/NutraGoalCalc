@@ -34,20 +34,6 @@ class FoodRecord(Base):
     updated_at: Mapped[str] = mapped_column(String(30))
 
 
-class DailyTargetRecord(Base):
-    __tablename__ = "daily_targets"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
-    calories_min: Mapped[float] = mapped_column(Float)
-    calories_max: Mapped[float] = mapped_column(Float)
-    protein_min: Mapped[float] = mapped_column(Float)
-    protein_max: Mapped[float] = mapped_column(Float)
-    carbs_min: Mapped[float] = mapped_column(Float)
-    carbs_max: Mapped[float] = mapped_column(Float)
-    fat_min: Mapped[float] = mapped_column(Float)
-    fat_max: Mapped[float] = mapped_column(Float)
-
-
 CATALOGUE_NAME = "Body Recomposition Nutrition Tracker"
 CATALOGUE_VERSION = "1.0"
 UNITS_SUPPORTED: list[Unit] = ["g", "each", "bowl", "scoop", "cup", "tbsp", "tsp", "medium", "large"]
@@ -92,16 +78,4 @@ def seed_from_json(engine: Engine, json_path: Path) -> None:
             )
             session.add(record)
 
-        t = catalogue.metadata.daily_targets
-        session.add(DailyTargetRecord(
-            id=1,
-            calories_min=t.calories_kcal.min,
-            calories_max=t.calories_kcal.max,
-            protein_min=t.protein_g.min,
-            protein_max=t.protein_g.max,
-            carbs_min=t.carbs_g.min,
-            carbs_max=t.carbs_g.max,
-            fat_min=t.fat_g.min,
-            fat_max=t.fat_g.max,
-        ))
         session.commit()

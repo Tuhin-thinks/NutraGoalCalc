@@ -44,14 +44,6 @@ class TestFoods:
         assert data["count"] > 0
         assert all("category" in c and "count" in c for c in data["categories"])
 
-    def test_targets(self, client: TestClient):
-        resp = client.get("/api/v1/targets")
-        assert resp.status_code == 200
-        data = resp.json()
-        assert "daily_targets" in data
-        assert "metadata" in data
-
-
 class TestFoodCRUD:
     def test_create_food(self, client: TestClient):
         resp = client.post("/api/v1/foods", json={
@@ -202,28 +194,4 @@ class TestCalculate:
         assert resp.json()["totals"]["protein_g"] == 85.0
 
 
-class TestCalculateWithTargets:
-    def test_returns_comparison(self, client: TestClient):
-        resp = client.post("/api/v1/calculate/with-targets", json={
-            "items": [{"food_id": "chicken_breast_100g", "quantity": 200}],
-        })
-        assert resp.status_code == 200
-        data = resp.json()
-        assert "target_comparison" in data
-        assert len(data["target_comparison"]) == 4
-        for entry in data["target_comparison"]:
-            assert "nutrient" in entry
-            assert "current" in entry
-            assert "min" in entry
-            assert "max" in entry
-            assert "percent_of_midpoint" in entry
 
-    def test_unknown_food_404(self, client: TestClient):
-        resp = client.post("/api/v1/calculate/with-targets", json={
-            "items": [{"food_id": "bad_id", "quantity": 1}],
-        })
-        assert resp.status_code == 404
-
-    def test_empty_422(self, client: TestClient):
-        resp = client.post("/api/v1/calculate/with-targets", json={"items": []})
-        assert resp.status_code == 422

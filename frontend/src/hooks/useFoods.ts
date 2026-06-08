@@ -17,12 +17,14 @@ export function useFoods(category?: string) {
     setLoading(true)
     setError(null)
     try {
-      const data = await getFoods(category)
+      const data = await getFoods(category && category !== "all" ? category : undefined)
       const filtered: FoodSummary[] =
         category && category !== "all"
           ? data.foods.filter((f) => f.category === category)
           : data.foods
-      cachedFoods = data.foods
+      if (!category || category === "all") {
+        cachedFoods = data.foods
+      }
       setFoods(filtered)
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to load foods")

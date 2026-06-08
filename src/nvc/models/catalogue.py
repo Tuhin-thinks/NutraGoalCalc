@@ -25,34 +25,13 @@ class NutritionPerUnit(BaseModel):
     fiber_g: float = 0.0
 
 
-class MacroRange(BaseModel):
-    """Inclusive [min, max] daily target range for a single nutrient."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    min: float
-    max: float
-
-
-class DailyTargets(BaseModel):
-    """Per-day macro targets used by the with-targets comparison endpoint."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    calories_kcal: MacroRange
-    protein_g: MacroRange
-    carbs_g: MacroRange
-    fat_g: MacroRange
-
-
 class CatalogueMetadata(BaseModel):
     """Top-level metadata block from the JSON file."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="ignore")
 
     name: str
     version: str
-    daily_targets: DailyTargets
     units_supported: list[Unit] = Field(default_factory=list)
 
 

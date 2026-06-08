@@ -5,7 +5,6 @@ from typing import Protocol
 from nvc.models.api import FoodCreate
 from nvc.models.catalogue import (
     CatalogueMetadata,
-    DailyTargets,
     Food,
 )
 
@@ -27,9 +26,6 @@ class NutritionRepository(Protocol):
         ...
 
     def metadata(self) -> CatalogueMetadata:
-        ...
-
-    def targets(self) -> DailyTargets:
         ...
 
     def create_food(self, data: FoodCreate) -> Food:
