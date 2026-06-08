@@ -3,12 +3,33 @@
     "name": "Body Recomposition Nutrition Tracker",
     "version": "1.0",
     "daily_targets": {
-      "calories_kcal": { "min": 1800, "max": 2100 },
-      "protein_g": { "min": 110, "max": 130 },
-      "carbs_g": { "min": 160, "max": 220 },
-      "fat_g": { "min": 50, "max": 65 }
+      "calories_kcal": {
+        "min": 1800,
+        "max": 2100
+      },
+      "protein_g": {
+        "min": 110,
+        "max": 130
+      },
+      "carbs_g": {
+        "min": 160,
+        "max": 220
+      },
+      "fat_g": {
+        "min": 50,
+        "max": 65
+      }
     },
-    "units_supported": ["g", "each", "bowl", "scoop", "cup", "tbsp", "medium", "large"]
+    "units_supported": [
+      "g",
+      "each",
+      "bowl",
+      "scoop",
+      "cup",
+      "tbsp",
+      "medium",
+      "large"
+    ]
   },
   "foods": [
     {
@@ -23,7 +44,8 @@
         "fat_g": 3.5,
         "calories_kcal": 165
       },
-      "notes": "Corrected from file: 30g protein per 100g"
+      "notes": "Corrected from file: 30g protein per 100g",
+      "min_increment": 50
     },
     {
       "id": "chicken_thigh_100g",
@@ -37,7 +59,8 @@
         "fat_g": 8.5,
         "calories_kcal": 190
       },
-      "notes": "File: 48g protein per 200g → 24g per 100g"
+      "notes": "File: 48g protein per 200g → 24g per 100g",
+      "min_increment": 50
     },
     {
       "id": "lean_chicken_keema_100g",
@@ -51,7 +74,8 @@
         "fat_g": 7,
         "calories_kcal": 170
       },
-      "notes": "File: 42g protein per 200g → 21g per 100g"
+      "notes": "File: 42g protein per 200g → 21g per 100g",
+      "min_increment": 50
     },
     {
       "id": "prawns_100g",
@@ -65,7 +89,8 @@
         "fat_g": 1.5,
         "calories_kcal": 100
       },
-      "notes": "File: 40g protein per 200g → 20g per 100g"
+      "notes": "File: 40g protein per 200g → 20g per 100g",
+      "min_increment": 50
     },
     {
       "id": "whole_egg_1",
@@ -79,7 +104,8 @@
         "fat_g": 5,
         "calories_kcal": 72
       },
-      "notes": "Corrected from file (6.3g protein per large egg)"
+      "notes": "Corrected from file (6.3g protein per large egg)",
+      "min_increment": 0.5
     },
     {
       "id": "egg_white_1",
@@ -92,7 +118,8 @@
         "carbs_g": 0.2,
         "fat_g": 0,
         "calories_kcal": 17
-      }
+      },
+      "min_increment": 0.5
     },
     {
       "id": "tofu_100g",
@@ -106,7 +133,8 @@
         "fat_g": 5,
         "calories_kcal": 90
       },
-      "notes": "Corrected from file: 20g protein per 200g → 10g per 100g"
+      "notes": "Corrected from file: 20g protein per 200g → 10g per 100g",
+      "min_increment": 50
     },
     {
       "id": "tofu_bhurji_100g",
@@ -120,7 +148,8 @@
         "fat_g": 5.6,
         "calories_kcal": 120
       },
-      "notes": "File: 30g protein per 250g → 12g per 100g"
+      "notes": "File: 30g protein per 250g → 12g per 100g",
+      "min_increment": 50
     },
     {
       "id": "whey_isolate_1_scoop",
@@ -133,7 +162,8 @@
         "carbs_g": 1.5,
         "fat_g": 0.5,
         "calories_kcal": 115
-      }
+      },
+      "min_increment": 0.5
     },
     {
       "id": "chole_1_bowl",
@@ -147,7 +177,8 @@
         "fat_g": 10,
         "calories_kcal": 250
       },
-      "notes": "Corrected from file: 12g protein, not 15g"
+      "notes": "Corrected from file: 12g protein, not 15g",
+      "min_increment": 0.5
     },
     {
       "id": "kala_chana_1_bowl",
@@ -160,7 +191,8 @@
         "carbs_g": 35,
         "fat_g": 5,
         "calories_kcal": 270
-      }
+      },
+      "min_increment": 0.5
     },
     {
       "id": "roasted_chana_50g",
@@ -173,7 +205,8 @@
         "carbs_g": 30,
         "fat_g": 3,
         "calories_kcal": 180
-      }
+      },
+      "min_increment": 25
     },
     {
       "id": "besan_chilla_1_medium",
@@ -187,7 +220,8 @@
         "fat_g": 3,
         "calories_kcal": 120
       },
-      "notes": "File: 12g protein for 2 → 6g per chilla"
+      "notes": "File: 12g protein for 2 → 6g per chilla",
+      "min_increment": 0.5
     },
     {
       "id": "cooked_rice_1_cup",
@@ -201,7 +235,8 @@
         "fat_g": 0.3,
         "calories_kcal": 190
       },
-      "notes": "Corrected from file: 35g carbs, not 45g"
+      "notes": "Corrected from file: 35g carbs, not 45g",
+      "min_increment": 0.25
     },
     {
       "id": "wheat_roti_1_medium",
@@ -214,7 +249,8 @@
         "carbs_g": 20,
         "fat_g": 2.5,
         "calories_kcal": 110
-      }
+      },
+      "min_increment": 0.5
     },
     {
       "id": "oats_50g_raw",
@@ -227,7 +263,8 @@
         "carbs_g": 32,
         "fat_g": 5,
         "calories_kcal": 190
-      }
+      },
+      "min_increment": 25
     },
     {
       "id": "banana_1_medium",
@@ -240,7 +277,8 @@
         "carbs_g": 27,
         "fat_g": 0.4,
         "calories_kcal": 105
-      }
+      },
+      "min_increment": 0.5
     },
     {
       "id": "watermelon_200g",
@@ -253,7 +291,8 @@
         "carbs_g": 15,
         "fat_g": 0,
         "calories_kcal": 60
-      }
+      },
+      "min_increment": 50
     },
     {
       "id": "papaya_200g",
@@ -266,7 +305,8 @@
         "carbs_g": 20,
         "fat_g": 0,
         "calories_kcal": 80
-      }
+      },
+      "min_increment": 50
     },
     {
       "id": "guava_1_medium",
@@ -280,7 +320,8 @@
         "fat_g": 0.5,
         "calories_kcal": 70
       },
-      "notes": "File: 4g protein for 2 guavas → 2g per guava"
+      "notes": "File: 4g protein for 2 guavas → 2g per guava",
+      "min_increment": 0.5
     },
     {
       "id": "mixed_salad_1_bowl",
@@ -293,7 +334,8 @@
         "carbs_g": 8,
         "fat_g": 0,
         "calories_kcal": 50
-      }
+      },
+      "min_increment": 0.5
     },
     {
       "id": "stir_fried_veggies_100g",
@@ -307,7 +349,8 @@
         "fat_g": 1.5,
         "calories_kcal": 50
       },
-      "notes": "File: 80-120kcal per 200g → ~50kcal per 100g"
+      "notes": "File: 80-120kcal per 200g → ~50kcal per 100g",
+      "min_increment": 50
     },
     {
       "id": "cucumber_100g",
@@ -320,7 +363,8 @@
         "carbs_g": 4,
         "fat_g": 0,
         "calories_kcal": 15
-      }
+      },
+      "min_increment": 50
     },
     {
       "id": "carrot_100g",
@@ -333,7 +377,8 @@
         "carbs_g": 10,
         "fat_g": 0.2,
         "calories_kcal": 41
-      }
+      },
+      "min_increment": 50
     },
     {
       "id": "spinach_cooked_100g",
@@ -347,7 +392,8 @@
         "fat_g": 0.5,
         "calories_kcal": 30
       },
-      "notes": "File: 40kcal per 150g → ~27kcal per 100g, adjusted slightly"
+      "notes": "File: 40kcal per 150g → ~27kcal per 100g, adjusted slightly",
+      "min_increment": 50
     },
     {
       "id": "broccoli_100g",
@@ -360,7 +406,8 @@
         "carbs_g": 7,
         "fat_g": 0.4,
         "calories_kcal": 35
-      }
+      },
+      "min_increment": 50
     },
     {
       "id": "psyllium_husk_1_tbsp",
@@ -374,7 +421,8 @@
         "fat_g": 0,
         "calories_kcal": 20,
         "fiber_g": 5
-      }
+      },
+      "min_increment": 0.25
     },
     {
       "id": "flax_seeds_1_tbsp",
@@ -388,7 +436,8 @@
         "fat_g": 4,
         "calories_kcal": 55,
         "fiber_g": 3
-      }
+      },
+      "min_increment": 0.25
     },
     {
       "id": "peanuts_30g",
@@ -401,7 +450,8 @@
         "carbs_g": 6,
         "fat_g": 15,
         "calories_kcal": 170
-      }
+      },
+      "min_increment": 15
     },
     {
       "id": "mustard_oil_1_tsp",
@@ -414,7 +464,8 @@
         "carbs_g": 0,
         "fat_g": 4.5,
         "calories_kcal": 40
-      }
+      },
+      "min_increment": 0.25
     }
   ]
 }

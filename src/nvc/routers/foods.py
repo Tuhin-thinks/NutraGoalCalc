@@ -21,7 +21,7 @@ def list_foods(
 ) -> FoodsListResponse:
     """List all foods in the catalogue, optionally narrowed to one category."""
     foods = repo.list_foods(category=category)
-    summaries = [FoodSummary(id=f.id, name=f.name, category=f.category, unit=f.unit) for f in foods]
+    summaries = [FoodSummary(id=f.id, name=f.name, category=f.category, unit=f.unit, min_increment=f.min_increment) for f in foods]
     return FoodsListResponse(count=len(summaries), foods=summaries)
 
 
@@ -35,7 +35,7 @@ def get_food(
         food = repo.get_food(food_id)
     except KeyError as exc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"food '{food_id}' not found") from exc
-    return FoodSummary(id=food.id, name=food.name, category=food.category, unit=food.unit)
+    return FoodSummary(id=food.id, name=food.name, category=food.category, unit=food.unit, min_increment=food.min_increment)
 
 
 @router.get("/categories", response_model=CategoriesResponse)

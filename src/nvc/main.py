@@ -4,6 +4,7 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from nvc.config import Settings, settings
 from nvc.repositories import JSONCatalogueRepository, NutritionRepository
@@ -28,6 +29,14 @@ def create_app(config: Settings = settings) -> FastAPI:
         version="0.1.0",
         description="Single-user FastAPI service for calculating nutritional values from a static food catalogue.",
         lifespan=lifespan,
+    )
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=config.cors_origins,
+        allow_credentials=False,
+        allow_methods=["GET", "POST"],
+        allow_headers=["*"],
     )
 
     api_prefix = "/api/v1"

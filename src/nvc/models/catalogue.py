@@ -71,6 +71,7 @@ class Food(BaseModel):
     unit: Unit
     reference_weight_g: float
     nutrition_per_unit: NutritionPerUnit
+    min_increment: float = 1.0
     notes: str | None = None
 
 

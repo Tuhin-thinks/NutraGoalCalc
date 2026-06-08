@@ -28,6 +28,7 @@ class FoodSummary(BaseModel):
     name: str
     category: str
     unit: str
+    min_increment: float
 
 
 class FoodsListResponse(BaseModel):
