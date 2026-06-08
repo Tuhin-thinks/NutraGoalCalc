@@ -15,8 +15,8 @@ export function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
         className={cn(
           "rounded-full px-3 py-1 text-sm font-medium transition-colors",
           selected === "all" || !selected
-            ? "bg-neutral-900 text-white"
-            : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200",
+            ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900"
+            : "bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700",
         )}
       >
         All

@@ -36,7 +36,7 @@ function CopyButton({ item }: { item: ItemBreakdown }) {
   return (
     <button
       onClick={(e) => { e.stopPropagation(); handleCopy() }}
-      className="shrink-0 rounded p-1 text-neutral-300 hover:text-neutral-500"
+      className="shrink-0 rounded p-1 text-neutral-300 dark:text-neutral-500 hover:text-neutral-500 dark:hover:text-neutral-400"
       title="Copy item JSON"
     >
       <Copy className="h-3.5 w-3.5" />
@@ -50,7 +50,7 @@ export function ItemsBreakdown({ items }: ItemsBreakdownProps) {
 
   return (
     <div className="space-y-2">
-      <h4 className="text-sm font-semibold text-neutral-600">Per-Item Breakdown</h4>
+      <h4 className="text-sm font-semibold text-neutral-600 dark:text-neutral-400">Per-Item Breakdown</h4>
       {items.map((item) => {
         const color = categoryColor(
           item.food_id.startsWith("chicken") || item.food_id.includes("whey") || item.food_id.includes("egg") || item.food_id.includes("paneer") || item.food_id.includes("soya") || item.food_id.includes("sardine") || item.food_id.includes("sprouts") || item.food_id.includes("curd") || item.food_id.includes("milk")
@@ -66,17 +66,17 @@ export function ItemsBreakdown({ items }: ItemsBreakdownProps) {
                     : "fat",
         )
         return (
-          <div key={item.food_id} className={cn("rounded-md border border-neutral-200 bg-white px-3 py-2", "border-l-4", color.border)}>
+          <div key={item.food_id} className={cn("rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2", "border-l-4", color.border)}>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-neutral-900">{item.name}</span>
+              <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{item.name}</span>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-neutral-400">
+                <span className="text-xs text-neutral-400 dark:text-neutral-500">
                   {item.quantity} {item.unit}
                 </span>
                 <CopyButton item={item} />
               </div>
             </div>
-            <div className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-neutral-500">
+            <div className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-neutral-500 dark:text-neutral-400">
               <span>{item.nutrition.calories_kcal.toFixed(0)} kcal</span>
               <span>P {item.nutrition.protein_g.toFixed(1)}g</span>
               <span>C {item.nutrition.carbs_g.toFixed(1)}g</span>

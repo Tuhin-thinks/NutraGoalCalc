@@ -38,9 +38,9 @@ export function DayDetail({ date, items, onDeleteItem, onMoveItem, onClearDay }:
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-neutral-200 py-8">
+      <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-neutral-200 dark:border-neutral-700 py-8">
         <span className="text-2xl">📅</span>
-        <p className="mt-1 text-sm text-neutral-400">No entries for this day</p>
+        <p className="mt-1 text-sm text-neutral-400 dark:text-neutral-500">No entries for this day</p>
       </div>
     )
   }
@@ -48,7 +48,7 @@ export function DayDetail({ date, items, onDeleteItem, onMoveItem, onClearDay }:
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-neutral-400">
+        <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500">
           {items.length} item{items.length !== 1 ? "s" : ""}
         </span>
         <Button variant="ghost" size="sm" onClick={onClearDay} className="h-7 text-xs text-red-400 hover:text-red-600">
@@ -61,7 +61,7 @@ export function DayDetail({ date, items, onDeleteItem, onMoveItem, onClearDay }:
         return (
           <div
             key={entry.id}
-            className={cn("rounded-md border border-neutral-200 bg-white px-3 py-2", "border-l-4", color.border)}
+            className={cn("rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2", "border-l-4", color.border)}
           >
             <div className="flex items-center justify-between gap-2">
               <div className="flex min-w-0 items-center gap-2">
@@ -69,17 +69,17 @@ export function DayDetail({ date, items, onDeleteItem, onMoveItem, onClearDay }:
                 <CategoryBadge category={entry.food.category} />
               </div>
               <div className="flex shrink-0 items-center gap-1">
-                <span className="text-xs text-neutral-400">{entry.quantity} {entry.food.unit}</span>
+                <span className="text-xs text-neutral-400 dark:text-neutral-500">{entry.quantity} {entry.food.unit}</span>
                 <button
                   onClick={() => startMove(entry.id)}
-                  className="rounded p-1 text-neutral-300 hover:text-neutral-500"
+                  className="rounded p-1 text-neutral-300 dark:text-neutral-500 hover:text-neutral-500 dark:hover:text-neutral-400"
                   title="Move to another date"
                 >
                   <CalendarDays className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={() => onDeleteItem(entry.id)}
-                  className="rounded p-1 text-neutral-300 hover:text-red-500"
+                  className="rounded p-1 text-neutral-300 dark:text-neutral-500 hover:text-red-500"
                   title="Remove"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
@@ -87,23 +87,23 @@ export function DayDetail({ date, items, onDeleteItem, onMoveItem, onClearDay }:
               </div>
             </div>
             {isMoving && (
-              <div className="mt-2 flex items-center gap-2 border-t border-neutral-100 pt-2">
-                <label className="text-xs text-neutral-500">Move to:</label>
+              <div className="mt-2 flex items-center gap-2 border-t border-neutral-100 dark:border-neutral-800 pt-2">
+                <label className="text-xs text-neutral-500 dark:text-neutral-400">Move to:</label>
                 <input
                   type="date"
                   value={moveDate}
                   onChange={(e) => setMoveDate(e.target.value)}
-                  className="h-8 flex-1 rounded border border-neutral-200 px-2 text-xs outline-none focus:border-neutral-400"
+                  className="h-8 flex-1 rounded border border-neutral-200 dark:border-neutral-700 px-2 text-xs outline-none focus:border-neutral-400 dark:focus:border-neutral-500"
                 />
                 <button
                   onClick={confirmMove}
-                  className="rounded bg-neutral-900 px-2 py-1 text-xs text-white"
+                  className="rounded bg-neutral-900 dark:bg-neutral-100 px-2 py-1 text-xs text-white dark:text-neutral-900"
                 >
                   Move
                 </button>
                 <button
                   onClick={cancelMove}
-                  className="rounded px-2 py-1 text-xs text-neutral-500"
+                  className="rounded px-2 py-1 text-xs text-neutral-500 dark:text-neutral-400"
                 >
                   Cancel
                 </button>

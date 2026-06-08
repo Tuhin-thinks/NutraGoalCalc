@@ -39,7 +39,7 @@ export default function App() {
       <Toaster
         position="bottom-center"
         toastOptions={{
-          className: "border border-neutral-200 shadow-lg",
+          className: "border border-neutral-200 dark:border-neutral-700 shadow-lg dark:shadow-black/20",
         }}
       />
     </>

@@ -196,23 +196,23 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
     <div className="flex flex-col gap-4">
       {/* Mode toggle + copy button */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 rounded-md border border-neutral-200 p-0.5">
+        <div className="flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 p-0.5">
           <button
             onClick={() => handleModeChange("form")}
-            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "form" ? "bg-neutral-900 text-white" : "text-neutral-500 hover:text-neutral-700"}`}
+            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "form" ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
           >
             Form
           </button>
           <button
             onClick={() => handleModeChange("json")}
-            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "json" ? "bg-neutral-900 text-white" : "text-neutral-500 hover:text-neutral-700"}`}
+            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "json" ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
           >
             JSON
           </button>
         </div>
         <button
           onClick={handleCopy}
-          className="inline-flex items-center gap-1 rounded-md border border-neutral-200 px-2 py-1 text-xs text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
+          className="inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2 py-1 text-xs text-neutral-500 dark:text-neutral-400 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300"
         >
           <Copy className="h-3.5 w-3.5" />
           {copied ? "Copied!" : "Copy JSON"}
@@ -222,18 +222,18 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
       {mode === "form" ? (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="mb-1 block text-xs font-medium text-neutral-500">Name *</label>
+            <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Name *</label>
             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Homemade Protein Bar" required />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Category *</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Category *</label>
               <div className="flex items-center gap-1.5">
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="flex h-10 flex-1 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white outline-none focus:border-neutral-400"
+                  className="flex h-10 flex-1 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm ring-offset-white dark:ring-offset-neutral-900 outline-none focus:border-neutral-400 dark:focus:border-neutral-500"
                 >
                   {categories.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
@@ -255,7 +255,7 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
                     type="button"
                     onClick={startAddCat}
                     title="Add category"
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-neutral-200 text-neutral-400 hover:border-neutral-300 hover:text-neutral-600"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-neutral-200 dark:border-neutral-700 text-neutral-400 dark:text-neutral-500 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-600 dark:hover:text-neutral-400"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -263,12 +263,12 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
               </div>
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Unit *</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Unit *</label>
               <div className="flex items-center gap-1.5">
                 <select
                   value={unit}
                   onChange={(e) => setUnit(e.target.value)}
-                  className="flex h-10 flex-1 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white outline-none focus:border-neutral-400"
+                  className="flex h-10 flex-1 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm ring-offset-white dark:ring-offset-neutral-900 outline-none focus:border-neutral-400 dark:focus:border-neutral-500"
                 >
                   {units.map((u) => <option key={u} value={u}>{u}</option>)}
                 </select>
@@ -290,7 +290,7 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
                     type="button"
                     onClick={startAddUnit}
                     title="Add unit"
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-neutral-200 text-neutral-400 hover:border-neutral-300 hover:text-neutral-600"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-neutral-200 dark:border-neutral-700 text-neutral-400 dark:text-neutral-500 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-600 dark:hover:text-neutral-400"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -300,43 +300,43 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-neutral-500">Reference Weight (g) *</label>
+            <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Reference Weight (g) *</label>
             <Input type="number" min={0.1} step={0.1} value={refWeight} onChange={(e) => num(e.target.value, setRefWeight)} required />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Protein (g) *</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Protein (g) *</label>
               <Input type="number" min={0} step={0.1} value={protein} onChange={(e) => num(e.target.value, setProtein)} required />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Carbs (g) *</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Carbs (g) *</label>
               <Input type="number" min={0} step={0.1} value={carbs} onChange={(e) => num(e.target.value, setCarbs)} required />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Fat (g) *</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Fat (g) *</label>
               <Input type="number" min={0} step={0.1} value={fat} onChange={(e) => num(e.target.value, setFat)} required />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Calories (kcal) *</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Calories (kcal) *</label>
               <Input type="number" min={0.1} step={0.1} value={calories} onChange={(e) => num(e.target.value, setCalories)} required />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Fiber (g)</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Fiber (g)</label>
               <Input type="number" min={0} step={0.1} value={fiber} onChange={(e) => num(e.target.value, setFiber)} />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium text-neutral-500">Min Increment</label>
+              <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Min Increment</label>
               <Input type="number" min={0.01} step={0.01} value={minInc} onChange={(e) => num(e.target.value, setMinInc)} />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-neutral-500">Notes</label>
-            <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className="flex w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Optional notes" />
+            <label className="mb-1 block text-xs font-medium text-neutral-500 dark:text-neutral-400">Notes</label>
+            <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className="flex w-full rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm ring-offset-white dark:ring-offset-neutral-900 placeholder:text-neutral-500 dark:placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Optional notes" />
           </div>
 
           <div className="flex justify-end gap-2">
@@ -346,14 +346,14 @@ export function FoodForm({ initial, onSave, onCancel }: FoodFormProps) {
         </form>
       ) : (
         <div className="flex flex-col gap-3">
-          <p className="text-xs text-neutral-500">
-            Paste JSON matching <code className="rounded bg-neutral-100 px-1 py-0.5 text-[11px]">FoodCreate</code> schema
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            Paste JSON matching <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 text-[11px]">FoodCreate</code> schema
           </p>
           <textarea
             ref={jsonTextareaRef}
             value={jsonText}
             onChange={(e) => { setJsonText(e.target.value); setJsonError(null) }}
-            className="min-h-[280px] resize-none rounded-md border border-neutral-200 bg-white p-3 text-sm font-mono outline-none focus:border-neutral-400"
+            className="min-h-[280px] resize-none rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-3 text-sm font-mono outline-none focus:border-neutral-400 dark:focus:border-neutral-500"
           />
           {jsonError && <p className="text-xs text-red-500">{jsonError}</p>}
           <div className="flex justify-end gap-2">

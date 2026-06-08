@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react"
 import { toast } from "sonner"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import { FoodPicker } from "@/components/FoodPicker"
 import { ItemsTable, type ItemEntry } from "@/components/ItemsTable"
 import { ResultsPanel } from "@/components/ResultsPanel"
@@ -165,49 +166,50 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
       />
 
       {/* Header */}
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 bg-white px-4">
+      <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-4">
         <div className="flex items-center gap-2">
           <span className="text-xl">🥗</span>
-          <h1 className="text-lg font-bold text-neutral-800">NutraGoalCalc</h1>
+          <h1 className="text-lg font-bold text-neutral-800 dark:text-neutral-200">NutraGoalCalc</h1>
         </div>
-        <div className="flex items-center gap-2 text-sm text-neutral-500">
+        <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+          <ThemeToggle />
           {weightInputs && (
             <button
               onClick={() => setShowWeightsModal(true)}
-              className="hidden md:inline-flex items-center gap-1 rounded-md border border-neutral-200 px-2 py-0.5 text-xs hover:border-neutral-300 hover:text-neutral-700"
+              className="hidden md:inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2 py-0.5 text-xs hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300"
             >
               {weightInputs.currentWeight} kg → {weightInputs.targetWeight} kg
-              <span className="ml-1 rounded bg-neutral-100 px-1 text-[10px] font-medium">{weightInputs.strategy}</span>
+              <span className="ml-1 rounded bg-neutral-100 dark:bg-neutral-800 px-1 text-[10px] font-medium">{weightInputs.strategy}</span>
             </button>
           )}
           {!weightInputs && (
             <button
               onClick={() => setShowWeightsModal(true)}
-              className="hidden md:inline-flex items-center gap-1 rounded-md border border-neutral-200 px-2 py-0.5 text-xs hover:border-neutral-300 hover:text-neutral-700"
+              className="hidden md:inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2 py-0.5 text-xs hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300"
             >
               Set targets
             </button>
           )}
           {items.length > 0 && (
-            <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium">
+            <span className="rounded-full bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 text-xs font-medium">
               {items.length} item{items.length !== 1 ? "s" : ""}
             </span>
           )}
           {items.length > 0 && (
-            <button onClick={handleSaveToDiary} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+            <button onClick={handleSaveToDiary} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
               Save to Diary
             </button>
           )}
-          <button onClick={handleExport} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+          <button onClick={handleExport} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
             Export
           </button>
-          <button onClick={handleImport} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+          <button onClick={handleImport} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
             Import
           </button>
-          <button onClick={onNavigateToDiary} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+          <button onClick={onNavigateToDiary} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
             Diary
           </button>
-          <button onClick={onNavigateToFoods} className="rounded-md border border-neutral-200 px-2.5 py-1 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-300 hover:text-neutral-700">
+          <button onClick={onNavigateToFoods} className="rounded-md border border-neutral-200 dark:border-neutral-700 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300">
             Manage Foods
           </button>
         </div>
@@ -217,7 +219,7 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
       <div className="snap-container flex-1">
         <div className="grid h-full grid-cols-1 md:grid-cols-2">
           {/* LEFT PANEL — only the food list scrolls; items table pins at bottom */}
-          <div className="snap-panel flex flex-col border-r border-neutral-200 bg-neutral-50/50 md:h-full">
+          <div className="snap-panel flex flex-col border-r border-neutral-200 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/50 md:h-full">
             <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden p-4 pb-0">
               <FoodPicker onAddFood={handleAddFood} onAddItems={handleAddItems} items={sorted} />
             </div>
@@ -231,7 +233,7 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
           </div>
 
           {/* RIGHT PANEL — fully static, fills viewport */}
-          <div className="snap-panel overflow-y-hidden bg-white p-4 md:h-full">
+          <div className="snap-panel overflow-y-hidden bg-white dark:bg-neutral-900 p-4 md:h-full">
             <ResultsPanel
               result={result}
               loading={loading}

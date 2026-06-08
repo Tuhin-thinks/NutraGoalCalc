@@ -66,11 +66,11 @@ export function ResultsPanel({
   return (
     <div className="flex h-full flex-col gap-4">
       <div className="flex shrink-0 items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold text-neutral-800">Results</h2>
+        <h2 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Results</h2>
         {result && (
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1 rounded-md border border-neutral-200 px-2 py-1 text-xs text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
+            className="inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2 py-1 text-xs text-neutral-500 dark:text-neutral-400 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300"
           >
             <Copy className="h-3.5 w-3.5" />
             {copied ? "Copied!" : "Copy JSON"}
@@ -92,20 +92,20 @@ export function ResultsPanel({
       )}
 
       {!result && !loading && !error && !needsWeights && (
-        <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-neutral-200 py-16">
+        <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-neutral-200 dark:border-neutral-700 py-16">
           <span className="text-3xl">🍽️</span>
-          <p className="mt-2 text-sm text-neutral-400">Add foods to see results</p>
+          <p className="mt-2 text-sm text-neutral-400 dark:text-neutral-500">Add foods to see results</p>
         </div>
       )}
 
       {!result && !loading && !error && needsWeights && (
-        <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-neutral-200 py-16">
+        <div className="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-neutral-200 dark:border-neutral-700 py-16">
           <span className="text-3xl">⚖️</span>
-          <p className="mt-2 text-sm text-neutral-400">Set your weight targets to see results</p>
+          <p className="mt-2 text-sm text-neutral-400 dark:text-neutral-500">Set your weight targets to see results</p>
           {onOpenWeights && (
             <button
               onClick={onOpenWeights}
-              className="mt-3 rounded-md bg-neutral-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-neutral-800"
+              className="mt-3 rounded-md bg-neutral-900 dark:bg-neutral-100 px-4 py-1.5 text-sm font-medium text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200"
             >
               Set Weights
             </button>
@@ -125,13 +125,13 @@ export function ResultsPanel({
             <ItemsBreakdown items={result.items} />
           </div>
 
-          <div className="shrink-0 rounded-md border border-neutral-200 bg-white p-3">
-            <h4 className="mb-2 text-xs font-semibold uppercase text-neutral-400">Color Legend</h4>
+          <div className="shrink-0 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-3">
+            <h4 className="mb-2 text-xs font-semibold uppercase text-neutral-400 dark:text-neutral-500">Color Legend</h4>
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               {ALL_CATEGORIES.map((cat) => {
                 const color = categoryColor(cat)
                 return (
-                  <div key={cat} className="flex items-center gap-1.5 text-xs text-neutral-500">
+                  <div key={cat} className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
                     <span className={cn("inline-block h-2.5 w-2.5 rounded-full", color.bg)} />
                     {cat}
                   </div>

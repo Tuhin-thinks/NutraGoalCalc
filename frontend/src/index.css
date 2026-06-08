@@ -6,10 +6,19 @@
   border-color: var(--color-border, #e5e7eb);
 }
 
+html.dark *, html.dark *::before, html.dark *::after {
+  border-color: var(--color-border, #404040);
+}
+
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: #fafafa;
   color: #0a0a0a;
+}
+
+html.dark body {
+  background-color: #0a0a0a;
+  color: #fafafa;
 }
 
 .snap-container {

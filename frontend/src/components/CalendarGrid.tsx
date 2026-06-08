@@ -39,14 +39,14 @@ export function CalendarGrid({ year, month, selectedDate, hasEntry, onSelectDate
   return (
     <div className="select-none">
       {/* Weekday headers */}
-      <div className="mb-1 grid grid-cols-7 text-center text-[11px] font-semibold uppercase text-neutral-400">
+      <div className="mb-1 grid grid-cols-7 text-center text-[11px] font-semibold uppercase text-neutral-400 dark:text-neutral-500">
         {WEEKDAYS.map((w) => <div key={w} className="py-1">{w}</div>)}
       </div>
       {/* Day grid */}
       <div className="grid grid-cols-7 gap-px">
         {days.map((cell, i) => {
           if (cell.empty) {
-            return <div key={`e${i}`} className="min-h-[56px] rounded-md bg-neutral-50/50" />
+            return <div key={`e${i}`} className="min-h-[56px] rounded-md bg-neutral-50/50 dark:bg-neutral-900/50" />
           }
           const date = cell.date
           const today = isToday(date)
@@ -59,22 +59,22 @@ export function CalendarGrid({ year, month, selectedDate, hasEntry, onSelectDate
               className={cn(
                 "relative flex min-h-[56px] flex-col items-center justify-start gap-0.5 rounded-md p-1 text-xs transition-colors",
                 selected
-                  ? "bg-neutral-900 text-white"
+                  ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900"
                   : today
-                    ? "bg-neutral-100 text-neutral-900"
-                    : "bg-white text-neutral-600 hover:bg-neutral-50",
+                    ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100"
+                    : "bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800",
               )}
             >
               <span className={cn(
                 "flex h-6 w-6 items-center justify-center rounded-full text-sm font-medium",
-                selected && today && "bg-white/20",
+                selected && today && "bg-white/20 dark:bg-neutral-900/20",
               )}>
                 {cell.day}
               </span>
               {has && (
                 <span className={cn(
                   "h-1.5 w-1.5 rounded-full",
-                  selected ? "bg-white" : "bg-neutral-400",
+                  selected ? "bg-white dark:bg-neutral-900" : "bg-neutral-400",
                 )} />
               )}
             </button>

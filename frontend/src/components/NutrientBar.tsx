@@ -19,7 +19,7 @@ export function NutrientBar({ entry }: NutrientBarProps) {
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between text-sm">
-        <span className="font-medium capitalize text-neutral-700">{nutrientLabel}</span>
+        <span className="font-medium capitalize text-neutral-700 dark:text-neutral-300">{nutrientLabel}</span>
         <span className="font-semibold" style={{ color }}>
           {formatNutrient(entry.current, entry.nutrient.includes("kcal") ? "kcal" : "g")}
         </span>
@@ -27,17 +27,17 @@ export function NutrientBar({ entry }: NutrientBarProps) {
       <div className="relative">
         <Progress value={Math.min(progressValue, 100)} indicatorColor={color} className="h-3" />
         <div
-          className="absolute top-0 h-3 w-0.5 bg-neutral-900/40"
+          className="absolute top-0 h-3 w-0.5 bg-neutral-900/40 dark:bg-white/20"
           style={{ left: `${(entry.min / midpoint) * 50}%` }}
           title={`Min: ${entry.min}`}
         />
         <div
-          className="absolute top-0 h-3 w-0.5 bg-neutral-900/40"
+          className="absolute top-0 h-3 w-0.5 bg-neutral-900/40 dark:bg-white/20"
           style={{ left: `${(entry.max / midpoint) * 50}%` }}
           title={`Max: ${entry.max}`}
         />
       </div>
-      <div className="flex justify-between text-xs text-neutral-400">
+      <div className="flex justify-between text-xs text-neutral-400 dark:text-neutral-500">
         <span>min: {entry.min}</span>
         <span>{formatPercent(entry.percent_of_midpoint)} of target</span>
         <span>max: {entry.max}</span>
@@ -54,11 +54,11 @@ export function NutrientBarSkeleton({ nutrient }: NutrientBarSkeletonProps) {
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between text-sm">
-        <span className="font-medium capitalize text-neutral-400">{nutrient.replace("_", " ")}</span>
-        <span className="h-4 w-16 animate-pulse rounded bg-neutral-200" />
+        <span className="font-medium capitalize text-neutral-400 dark:text-neutral-500">{nutrient.replace("_", " ")}</span>
+        <span className="h-4 w-16 animate-pulse rounded bg-neutral-200 dark:bg-neutral-700" />
       </div>
-      <div className="h-3 animate-pulse rounded-full bg-neutral-200" />
-      <div className="h-3 animate-pulse rounded bg-neutral-100" />
+      <div className="h-3 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-700" />
+      <div className="h-3 animate-pulse rounded bg-neutral-100 dark:bg-neutral-800" />
     </div>
   )
 }

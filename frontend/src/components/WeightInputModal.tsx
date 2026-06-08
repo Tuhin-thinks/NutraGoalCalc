@@ -39,7 +39,7 @@ export function WeightInputModal({ open, initial, onSave, onClose }: WeightInput
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-neutral-700">Current Weight (kg)</label>
+            <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Current Weight (kg)</label>
             <Input
               type="number"
               step="0.1"
@@ -50,7 +50,7 @@ export function WeightInputModal({ open, initial, onSave, onClose }: WeightInput
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-neutral-700">Target Weight (kg)</label>
+            <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Target Weight (kg)</label>
             <Input
               type="number"
               step="0.1"
@@ -61,9 +61,9 @@ export function WeightInputModal({ open, initial, onSave, onClose }: WeightInput
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-neutral-700">Strategy</label>
+            <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Strategy</label>
             <div className="space-y-2">
-              <label className="flex items-start gap-2 rounded-md border border-neutral-200 p-2.5 cursor-pointer hover:bg-neutral-50 has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-50">
+              <label className="flex items-start gap-2 rounded-md border border-neutral-200 dark:border-neutral-700 p-2.5 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-900 has-[:checked]:border-neutral-900 dark:has-[:checked]:border-neutral-100 has-[:checked]:bg-neutral-50 dark:has-[:checked]:bg-neutral-800">
                 <input
                   type="radio"
                   name="strategy"
@@ -74,12 +74,12 @@ export function WeightInputModal({ open, initial, onSave, onClose }: WeightInput
                 />
                 <div>
                   <div className="text-sm font-medium">strategy_AI</div>
-                  <div className="text-xs text-neutral-500">
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400">
                     Based on target weight: calories (target kg × 28), protein (× 1.8), fat (22% calories), carbs (remainder)
                   </div>
                 </div>
               </label>
-              <label className="flex items-start gap-2 rounded-md border border-neutral-200 p-2.5 cursor-pointer hover:bg-neutral-50 has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-50">
+              <label className="flex items-start gap-2 rounded-md border border-neutral-200 dark:border-neutral-700 p-2.5 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-900 has-[:checked]:border-neutral-900 dark:has-[:checked]:border-neutral-100 has-[:checked]:bg-neutral-50 dark:has-[:checked]:bg-neutral-800">
                 <input
                   type="radio"
                   name="strategy"
@@ -90,7 +90,7 @@ export function WeightInputModal({ open, initial, onSave, onClose }: WeightInput
                 />
                 <div>
                   <div className="text-sm font-medium">strategy_insta</div>
-                  <div className="text-xs text-neutral-500">
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400">
                     Based on current weight (calories = bw × 24, fat = bw × 0.7) and goal weight (protein = gw × 1.9), carbs = remainder
                   </div>
                 </div>

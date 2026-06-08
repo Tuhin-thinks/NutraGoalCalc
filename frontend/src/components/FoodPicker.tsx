@@ -122,16 +122,16 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
     <div className="flex min-h-0 flex-1 flex-col gap-3">
       {/* Mode toggle + copy button */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 rounded-md border border-neutral-200 p-0.5">
+        <div className="flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 p-0.5">
           <button
             onClick={() => handleModeChange("picker")}
-            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "picker" ? "bg-neutral-900 text-white" : "text-neutral-500 hover:text-neutral-700"}`}
+            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "picker" ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
           >
             Picker
           </button>
           <button
             onClick={() => handleModeChange("json")}
-            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "json" ? "bg-neutral-900 text-white" : "text-neutral-500 hover:text-neutral-700"}`}
+            className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "json" ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
           >
             JSON
           </button>
@@ -139,7 +139,7 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
         {items && items.length > 0 && (
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1 rounded-md border border-neutral-200 px-2 py-1 text-xs text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
+            className="inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2 py-1 text-xs text-neutral-500 dark:text-neutral-400 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300"
           >
             <Copy className="h-3.5 w-3.5" />
             {copied ? "Copied!" : "Copy JSON"}
@@ -162,7 +162,7 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
                   <FoodCard key={food.id} food={food} onClick={onAddFood} />
                 ))}
             {!loading && filtered.length === 0 && (
-              <p className="py-8 text-center text-sm text-neutral-400">
+              <p className="py-8 text-center text-sm text-neutral-400 dark:text-neutral-500">
                 No foods found{search ? ` matching "${search}"` : ""}
               </p>
             )}
@@ -172,15 +172,15 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
 
       {mode === "json" && (
         <div className="flex min-h-0 flex-1 flex-col gap-3">
-          <p className="text-xs text-neutral-500">
-            Paste JSON array: <code className="rounded bg-neutral-100 px-1 py-0.5 text-[11px]">[{"{"}"food_id": "chicken_breast_100g", "quantity": 200{"}"}]</code> or <code className="rounded bg-neutral-100 px-1 py-0.5 text-[11px]">{"{"}"food_items": [...]{"}"}</code>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            Paste JSON array: <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 text-[11px]">[{"{"}"food_id": "chicken_breast_100g", "quantity": 200{"}"}]</code> or <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 text-[11px]">{"{"}"food_items": [...]{"}"}</code>
           </p>
           <textarea
             ref={jsonTextareaRef}
             value={jsonText}
             onChange={(e) => { setJsonText(e.target.value); setJsonError(null) }}
             placeholder='[{"food_id": "chicken_breast_100g", "quantity": 200}]'
-            className="flex min-h-0 flex-1 resize-none rounded-md border border-neutral-200 bg-white p-3 text-sm font-mono outline-none focus:border-neutral-400"
+            className="flex min-h-0 flex-1 resize-none rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-3 text-sm font-mono outline-none focus:border-neutral-400 dark:focus:border-neutral-500"
           />
           {jsonError && <p className="text-xs text-red-500">{jsonError}</p>}
           <Button onClick={handleJsonSubmit} disabled={!jsonText.trim()}>

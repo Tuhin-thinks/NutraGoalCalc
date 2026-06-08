@@ -28,8 +28,8 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
 
   if (count === 0) {
     return (
-      <div className="flex items-center justify-center rounded-md border-2 border-dashed border-neutral-200 py-6">
-        <p className="text-sm text-neutral-400">Pick foods to start tracking</p>
+      <div className="flex items-center justify-center rounded-md border-2 border-dashed border-neutral-200 dark:border-neutral-700 py-6">
+        <p className="text-sm text-neutral-400 dark:text-neutral-500">Pick foods to start tracking</p>
       </div>
     )
   }
@@ -39,7 +39,7 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="hidden grid-cols-[1fr_auto_auto] gap-2 px-1 text-xs font-medium text-neutral-400 md:grid">
+      <div className="hidden grid-cols-[1fr_auto_auto] gap-2 px-1 text-xs font-medium text-neutral-400 dark:text-neutral-500 md:grid">
         <span>Food</span>
         <span>Qty</span>
         <span></span>
@@ -50,7 +50,7 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
           <div
             key={entry.id}
             className={cn(
-              "grid grid-cols-[1fr_auto_auto] items-center gap-2 rounded-md border border-neutral-200 bg-white px-3 py-2",
+              "grid grid-cols-[1fr_auto_auto] items-center gap-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2",
               "border-l-4",
               color.border,
             )}
@@ -71,9 +71,9 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
                 }}
                 className="h-8 w-20 text-right text-sm"
               />
-              <span className="w-8 text-xs text-neutral-400">{entry.food.unit}</span>
+              <span className="w-8 text-xs text-neutral-400 dark:text-neutral-500">{entry.food.unit}</span>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => onRemove(entry.id)} className="h-8 w-8 text-neutral-400 hover:text-red-500">
+            <Button variant="ghost" size="icon" onClick={() => onRemove(entry.id)} className="h-8 w-8 text-neutral-400 dark:text-neutral-500 hover:text-red-500">
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
@@ -84,8 +84,8 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
         <button
           onClick={() => setExpanded((p) => !p)}
           className={cn(
-            "flex items-center justify-center gap-1 rounded-md border border-dashed border-neutral-300 py-1.5 text-xs font-medium text-neutral-500 transition-colors hover:border-neutral-400 hover:text-neutral-700",
-            expanded && "border-neutral-200",
+            "flex items-center justify-center gap-1 rounded-md border border-dashed border-neutral-300 dark:border-neutral-600 py-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-400 dark:hover:border-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300",
+            expanded && "border-neutral-200 dark:border-neutral-700",
           )}
         >
           {expanded ? (
