@@ -1,7 +1,5 @@
 """Repository interface for accessing the static food catalogue."""
 
-from __future__ import annotations
-
 from typing import Protocol
 
 from nvc.models.catalogue import (

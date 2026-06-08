@@ -1,7 +1,5 @@
 """Read endpoint exposing the catalogue's daily macro targets."""
 
-from __future__ import annotations
-
 from fastapi import APIRouter, Depends
 
 from nvc.dependencies import get_repository

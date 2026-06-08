@@ -1,7 +1,5 @@
 """Liveness probe for orchestration / health checks."""
 
-from __future__ import annotations
-
 from fastapi import APIRouter
 
 router = APIRouter(tags=["health"])

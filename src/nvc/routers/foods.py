@@ -1,7 +1,5 @@
 """Read endpoints for the food catalogue."""
 
-from __future__ import annotations
-
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from nvc.dependencies import get_repository

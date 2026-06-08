@@ -1,7 +1,5 @@
 """FastAPI application factory for the NutraGoalCalc backend."""
 
-from __future__ import annotations
-
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -9,7 +7,8 @@ from fastapi import FastAPI
 
 from nvc.config import Settings, settings
 from nvc.repositories import JSONCatalogueRepository, NutritionRepository
-from nvc.routers import foods_router, health_router, targets_router
+from nvc.routers import calculate_router, foods_router, health_router, targets_router
+from nvc.services import DefaultNutritionCalculator, NutritionCalculator
 
 
 def create_app(config: Settings = settings) -> FastAPI:
@@ -21,6 +20,7 @@ def create_app(config: Settings = settings) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         app.state.repository: NutritionRepository = JSONCatalogueRepository(config.catalogue_path)
+        app.state.calculator: NutritionCalculator = DefaultNutritionCalculator()
         yield
 
     app = FastAPI(
@@ -34,6 +34,7 @@ def create_app(config: Settings = settings) -> FastAPI:
     app.include_router(health_router, prefix=api_prefix)
     app.include_router(foods_router, prefix=api_prefix)
     app.include_router(targets_router, prefix=api_prefix)
+    app.include_router(calculate_router, prefix=api_prefix)
 
     return app
 

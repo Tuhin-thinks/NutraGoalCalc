@@ -1,9 +1,8 @@
 """Settings loaded from environment variables with sensible defaults."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Self
 
 
 @dataclass(frozen=True, slots=True)
@@ -18,7 +17,7 @@ class Settings:
     catalogue_path: Path
 
     @classmethod
-    def from_env(cls) -> Settings:
+    def from_env(cls) -> Self:
         """Build settings from environment variables, falling back to defaults.
 
         Reads `NVC_CATALOGUE_PATH`; defaults to `nutrition-values.json` in the project root.

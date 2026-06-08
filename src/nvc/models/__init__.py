@@ -6,10 +6,15 @@ The package groups two distinct concerns:
 """
 
 from nvc.models.api import (
+    CalculationItem,
+    CalculationRequest,
+    CalculationResponse,
     CategoriesResponse,
     CategorySummary,
     FoodSummary,
     FoodsListResponse,
+    ItemBreakdown,
+    NutritionTotals,
     TargetsResponse,
 )
 from nvc.models.catalogue import (
@@ -24,6 +29,9 @@ from nvc.models.catalogue import (
 )
 
 __all__ = [
+    "CalculationItem",
+    "CalculationRequest",
+    "CalculationResponse",
     "CategoriesResponse",
     "Category",
     "CategorySummary",
@@ -33,8 +41,10 @@ __all__ = [
     "Food",
     "FoodSummary",
     "FoodsListResponse",
+    "ItemBreakdown",
     "MacroRange",
     "NutritionPerUnit",
+    "NutritionTotals",
     "TargetsResponse",
     "Unit",
 ]

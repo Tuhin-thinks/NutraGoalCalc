@@ -1,7 +1,5 @@
 """In-memory `NutritionRepository` implementation backed by a JSON file."""
 
-from __future__ import annotations
-
 import json
 from collections import Counter
 from pathlib import Path
