@@ -1,0 +1,32 @@
+[project]
+name = "NutraGoalCalc-backend"
+version = "0.1.0"
+description = "FastAPI backend for single-user nutritional value calculations"
+authors = [
+    { name = "tuhin-thinks", email = "tuhinmitra190221@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.136.3",
+    "pydantic>=2.13.4",
+    "uvicorn>=0.49.0",
+]
+
+[project.scripts]
+nvc = "nvc.main:create_app"
+
+[build-system]
+requires = ["uv_build>=0.9.15,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = true
+
+[tool.uv.build-backend]
+module-name = "nvc"
+module-root = "src"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+]
