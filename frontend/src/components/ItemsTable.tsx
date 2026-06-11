@@ -34,7 +34,7 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="hidden grid-cols-[1fr_auto_auto_auto] gap-2 px-1 text-xs font-medium text-neutral-400 dark:text-neutral-500 md:grid">
+      <div className="sticky top-0 z-10 hidden grid-cols-[1fr_auto_auto_auto] items-center gap-2 border-b border-neutral-200/50 dark:border-neutral-700/50 bg-neutral-50/80 dark:bg-neutral-900/80 backdrop-blur-sm px-1 py-0.5 text-[11px] font-medium text-neutral-400/60 dark:text-neutral-500/60 md:grid">
         <span>Food</span>
         <span></span>
         <span>Qty</span>

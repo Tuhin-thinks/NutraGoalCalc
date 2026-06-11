@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react"
-import { Copy } from "lucide-react"
+import { Copy, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { FoodCard } from "@/components/FoodCard"
 import { CategoryFilter } from "@/components/CategoryFilter"
@@ -150,11 +150,23 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
       {mode === "picker" && (
         <>
           <CategoryFilter selected={category} onSelect={handleCategory} />
-          <Input
-            placeholder="Search foods..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <div className="relative">
+            <Input
+              placeholder="Search foods..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pr-8"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
           <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
             {loading
               ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-12 w-full shrink-0" />)

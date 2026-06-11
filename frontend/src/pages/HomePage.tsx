@@ -243,7 +243,7 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
             <div className="flex min-h-0 flex-col gap-3 overflow-y-auto border-b border-neutral-200 dark:border-neutral-700 p-4">
               <FoodPicker onAddFood={handleAddFood} onAddItems={handleAddItems} items={sorted} />
             </div>
-            <div className="flex min-h-0 flex-col overflow-y-auto p-4">
+            <div className="flex min-h-0 flex-col overflow-y-auto px-4 pb-4">
               <ItemsTable
                 items={sorted}
                 onUpdateQuantity={handleUpdateQuantity}
