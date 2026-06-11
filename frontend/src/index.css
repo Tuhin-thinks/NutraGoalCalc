@@ -21,6 +21,29 @@ html.dark body {
   color: #fafafa;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d4;
+  border-radius: 3px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #525252;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d4 transparent;
+}
+html.dark * {
+  scrollbar-color: #525252 transparent;
+}
+
 .snap-container {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;

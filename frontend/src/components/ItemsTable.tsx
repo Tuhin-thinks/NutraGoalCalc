@@ -1,8 +1,9 @@
-import { Trash2, ChevronDown, ChevronUp } from "lucide-react"
+import { Trash2, Eye } from "lucide-react"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { CategoryBadge } from "@/components/CategoryBadge"
+import { NutrientPreviewModal } from "@/components/NutrientPreviewModal"
 import { categoryColor } from "@/lib/colors"
 import { cn } from "@/lib/utils"
 import type { FoodSummary } from "@/lib/types"
@@ -20,13 +21,10 @@ interface ItemsTableProps {
   onRemove: (id: string) => void
 }
 
-const MAX_VISIBLE = 4
-
 export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProps) {
-  const [expanded, setExpanded] = useState(false)
-  const count = items.length
+  const [previewFood, setPreviewFood] = useState<FoodSummary | null>(null)
 
-  if (count === 0) {
+  if (items.length === 0) {
     return (
       <div className="flex items-center justify-center rounded-md border-2 border-dashed border-neutral-200 dark:border-neutral-700 py-6">
         <p className="text-sm text-neutral-400 dark:text-neutral-500">Pick foods to start tracking</p>
@@ -34,23 +32,21 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
     )
   }
 
-  const visible = expanded ? items : items.slice(0, MAX_VISIBLE)
-  const hidden = count - visible.length
-
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="hidden grid-cols-[1fr_auto_auto] gap-2 px-1 text-xs font-medium text-neutral-400 dark:text-neutral-500 md:grid">
+      <div className="hidden grid-cols-[1fr_auto_auto_auto] gap-2 px-1 text-xs font-medium text-neutral-400 dark:text-neutral-500 md:grid">
         <span>Food</span>
+        <span></span>
         <span>Qty</span>
         <span></span>
       </div>
-      {visible.map((entry) => {
+      {items.map((entry) => {
         const color = categoryColor(entry.food.category)
         return (
           <div
             key={entry.id}
             className={cn(
-              "grid grid-cols-[1fr_auto_auto] items-center gap-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2",
+              "grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2",
               "border-l-4",
               color.border,
             )}
@@ -59,6 +55,14 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
               <span className="truncate text-sm font-medium">{entry.food.name}</span>
               <CategoryBadge category={entry.food.category} />
             </div>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setPreviewFood(entry.food) }}
+              className="shrink-0 rounded p-1.5 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              title="Preview nutrients"
+            >
+              <Eye className="h-4 w-4" />
+            </button>
             <div className="flex items-center gap-1">
               <Input
                 type="number"
@@ -80,21 +84,7 @@ export function ItemsTable({ items, onUpdateQuantity, onRemove }: ItemsTableProp
         )
       })}
 
-      {hidden > 0 && (
-        <button
-          onClick={() => setExpanded((p) => !p)}
-          className={cn(
-            "flex items-center justify-center gap-1 rounded-md border border-dashed border-neutral-300 dark:border-neutral-600 py-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 transition-colors hover:border-neutral-400 dark:hover:border-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300",
-            expanded && "border-neutral-200 dark:border-neutral-700",
-          )}
-        >
-          {expanded ? (
-            <>Show less <ChevronUp className="h-3 w-3" /></>
-          ) : (
-            <>{hidden} more item{hidden > 1 ? "s" : ""} <ChevronDown className="h-3 w-3" /></>
-          )}
-        </button>
-      )}
+      <NutrientPreviewModal food={previewFood} onClose={() => setPreviewFood(null)} />
     </div>
   )
 }

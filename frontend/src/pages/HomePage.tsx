@@ -238,12 +238,12 @@ export function HomePage({ onNavigateToFoods, onNavigateToDiary }: HomePageProps
       {/* Main content — snap-scroll on mobile, 2-col grid on desktop */}
       <div className="snap-container flex-1">
         <div className="grid h-full grid-cols-1 md:grid-cols-2">
-          {/* LEFT PANEL — only the food list scrolls; items table pins at bottom */}
-          <div className="snap-panel flex flex-col border-r border-neutral-200 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/50 md:h-full">
-            <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden p-4 pb-0">
+          {/* LEFT PANEL — split 50/50 with independent scrolling */}
+          <div className="snap-panel grid grid-rows-[1fr_1fr] overflow-hidden border-r border-neutral-200 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/50 md:h-full">
+            <div className="flex min-h-0 flex-col gap-3 overflow-y-auto border-b border-neutral-200 dark:border-neutral-700 p-4">
               <FoodPicker onAddFood={handleAddFood} onAddItems={handleAddItems} items={sorted} />
             </div>
-            <div className="shrink-0 p-4 pt-3">
+            <div className="flex min-h-0 flex-col overflow-y-auto p-4">
               <ItemsTable
                 items={sorted}
                 onUpdateQuantity={handleUpdateQuantity}
