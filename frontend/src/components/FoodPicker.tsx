@@ -1,10 +1,11 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react"
-import { Copy, X } from "lucide-react"
+import { Copy, FileText, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { FoodCard } from "@/components/FoodCard"
 import { CategoryFilter } from "@/components/CategoryFilter"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
+import { RecipeImportModal } from "@/components/RecipeImportModal"
 import { useFoods } from "@/hooks/useFoods"
 import { getFoods } from "@/lib/api"
 import type { FoodSummary } from "@/lib/types"
@@ -33,6 +34,7 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
   const [jsonError, setJsonError] = useState<string | null>(null)
   const [foodLookup, setFoodLookup] = useState<Map<string, FoodSummary>>(new Map())
   const [copied, setCopied] = useState(false)
+  const [showRecipeModal, setShowRecipeModal] = useState(false)
   const jsonTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   const handleCategory = (cat: string) => {
@@ -122,7 +124,15 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
     <div className="flex min-h-0 flex-1 flex-col gap-3">
       {/* Mode toggle + copy button */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 p-0.5">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowRecipeModal(true)}
+            className="inline-flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 px-2 py-1 text-xs text-neutral-500 dark:text-neutral-400 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Recipe
+          </button>
+          <div className="flex items-center gap-1 rounded-md border border-neutral-200 dark:border-neutral-700 p-0.5">
           <button
             onClick={() => handleModeChange("picker")}
             className={`rounded px-2.5 py-1 text-xs font-medium transition-colors ${mode === "picker" ? "bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"}`}
@@ -135,6 +145,7 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
           >
             JSON
           </button>
+        </div>
         </div>
         {items && items.length > 0 && (
           <button
@@ -200,6 +211,13 @@ export function FoodPicker({ onAddFood, onAddItems, items }: FoodPickerProps) {
           </Button>
         </div>
       )}
+
+      <RecipeImportModal
+        open={showRecipeModal}
+        onClose={() => setShowRecipeModal(false)}
+        mode="picker"
+        onFoodCreated={(food) => onAddFood(food)}
+      />
     </div>
   )
 }

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { ArrowLeft, Edit3, Eye, Plus, Trash2 } from "lucide-react"
+import { ArrowLeft, Edit3, Eye, FileText, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CategoryBadge } from "@/components/CategoryBadge"
 import { FoodForm } from "@/components/FoodForm"
 import { NutrientPreviewModal } from "@/components/NutrientPreviewModal"
+import { RecipeImportModal } from "@/components/RecipeImportModal"
 import { clearFoodCache } from "@/hooks/useFoods"
 import { getFoods, getFoodDetail, createFood, updateFood, deleteFood } from "@/lib/api"
 import { categoryColor } from "@/lib/colors"
@@ -22,6 +23,7 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
   const [editId, setEditId] = useState<string | null>(null)
   const [editData, setEditData] = useState<FoodDetail | undefined>(undefined)
   const [showForm, setShowForm] = useState(false)
+  const [showRecipeModal, setShowRecipeModal] = useState(false)
   const [previewFood, setPreviewFood] = useState<FoodSummary | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -87,9 +89,14 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
           </Button>
           <h1 className="text-lg font-bold text-neutral-800 dark:text-neutral-200">Manage Foods</h1>
         </div>
-        <Button size="sm" onClick={() => setShowForm(true)}>
-          <Plus className="mr-1 h-4 w-4" /> Add Food
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" onClick={() => setShowRecipeModal(true)}>
+            <FileText className="mr-1 h-4 w-4" /> From Recipe
+          </Button>
+          <Button size="sm" onClick={() => setShowForm(true)}>
+            <Plus className="mr-1 h-4 w-4" /> Add Food
+          </Button>
+        </div>
       </header>
 
       {/* Search */}
@@ -150,6 +157,13 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
 
       {/* Nutrient preview modal */}
       <NutrientPreviewModal food={previewFood} onClose={() => setPreviewFood(null)} />
+
+      {/* Recipe import modal */}
+      <RecipeImportModal
+        open={showRecipeModal}
+        onClose={() => setShowRecipeModal(false)}
+        mode="standalone"
+      />
 
       {/* Modal overlay for create/edit form */}
       {(showForm || editData) && (
