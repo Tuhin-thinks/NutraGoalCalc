@@ -8,8 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from nvc.config import Settings, settings
 from nvc.database import get_engine, init_db, seed_from_json
+from nvc.llm import create_llm_adapter
 from nvc.repositories import SQLAlchemyCatalogueRepository, NutritionRepository
-from nvc.routers import calculate_router, foods_router, health_router
+from nvc.routers import calculate_router, foods_router, health_router, recipe_router
 from nvc.services import DefaultNutritionCalculator, NutritionCalculator
 
 
@@ -23,6 +24,15 @@ def create_app(config: Settings = settings) -> FastAPI:
         seed_from_json(engine, config.catalogue_path)
         app.state.repository: NutritionRepository = SQLAlchemyCatalogueRepository(engine)
         app.state.calculator: NutritionCalculator = DefaultNutritionCalculator()
+        llm_adapter = create_llm_adapter(
+            provider=config.llm_provider,
+            openai_api_key=config.openai_api_key,
+            openai_model=config.openai_model,
+            ollama_base_url=config.ollama_base_url,
+            ollama_model=config.ollama_model,
+        )
+        app.state.llm = llm_adapter
+        app.state.llm_provider = config.llm_provider
         yield
 
     app = FastAPI(
@@ -44,6 +54,7 @@ def create_app(config: Settings = settings) -> FastAPI:
     app.include_router(health_router, prefix=api_prefix)
     app.include_router(foods_router, prefix=api_prefix)
     app.include_router(calculate_router, prefix=api_prefix)
+    app.include_router(recipe_router, prefix=api_prefix)
 
     return app
 

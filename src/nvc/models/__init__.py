@@ -16,7 +16,10 @@ from nvc.models.api import (
     FoodSummary,
     FoodsListResponse,
     ItemBreakdown,
+    LLMStatusResponse,
     NutritionTotals,
+    ParsedRecipe,
+    RecipeParseRequest,
 )
 from nvc.models.catalogue import (
     Category,
@@ -42,7 +45,10 @@ __all__ = [
     "FoodSummary",
     "FoodsListResponse",
     "ItemBreakdown",
+    "LLMStatusResponse",
     "NutritionPerUnit",
     "NutritionTotals",
+    "ParsedRecipe",
+    "RecipeParseRequest",
     "Unit",
 ]

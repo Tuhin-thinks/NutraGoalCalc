@@ -158,4 +158,39 @@ class CalculationResponse(BaseModel):
     items: list[ItemBreakdown]
 
 
+class ParsedRecipe(BaseModel):
+    """Nutritional data extracted from unstructured recipe text by an LLM."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(min_length=1, max_length=255)
+    category: str
+    unit: str
+    reference_weight_g: float = Field(gt=0)
+    protein_g: float = Field(ge=0)
+    carbs_g: float = Field(ge=0)
+    fat_g: float = Field(ge=0)
+    calories_kcal: float = Field(gt=0)
+    fiber_g: float = 0.0
+    min_increment: float = 1.0
+    notes: str | None = None
+
+
+class LLMStatusResponse(BaseModel):
+    """Response for the LLM configuration status endpoint."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    configured: bool
+    provider: str | None = None
+
+
+class RecipeParseRequest(BaseModel):
+    """Request body for the recipe parsing endpoint."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    text: str = Field(min_length=1)
+
+
 
