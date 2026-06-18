@@ -2,9 +2,9 @@ import { useState } from "react"
 import { X, FileText, Loader2, ArrowLeft, ChevronRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ALL_CATEGORIES, UNITS } from "@/lib/api"
+import { ALL_CATEGORIES, UNITS, parseRecipe, createFood, ApiError } from "@/lib/api"
 import { toast } from "sonner"
-import type { FoodSummary, Category, Unit } from "@/lib/types"
+import type { FoodSummary, Category, Unit, ParsedRecipe } from "@/lib/types"
 
 interface RecipeImportModalProps {
   open: boolean
@@ -20,6 +20,8 @@ export function RecipeImportModal({ open, onClose, mode, onFoodCreated }: Recipe
   const [step, setStep] = useState<"input" | "preview">("input")
   const [recipeText, setRecipeText] = useState("")
   const [loading, setLoading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const [name, setName] = useState("Custom Recipe")
   const [category, setCategory] = useState<Category>("protein")
@@ -35,50 +37,87 @@ export function RecipeImportModal({ open, onClose, mode, onFoodCreated }: Recipe
 
   if (!open) return null
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!recipeText.trim()) return
     setLoading(true)
-    setTimeout(() => {
-      setName("Custom Recipe")
-      setCategory("protein")
-      setUnit("g")
-      setRefWeight(100)
-      setProtein(25)
-      setCarbs(30)
-      setFat(10)
-      setCalories(310)
-      setFiber(3)
-      setMinInc(1)
-      setNotes(`Parsed from recipe input`)
-      setLoading(false)
+    setError(null)
+    try {
+      const result: ParsedRecipe = await parseRecipe(recipeText)
+      setName(result.name)
+      setCategory(result.category as Category)
+      setUnit(result.unit as Unit)
+      setRefWeight(result.reference_weight_g)
+      setProtein(result.protein_g)
+      setCarbs(result.carbs_g)
+      setFat(result.fat_g)
+      setCalories(result.calories_kcal)
+      setFiber(result.fiber_g)
+      setMinInc(result.min_increment)
+      setNotes(result.notes ?? "")
       setStep("preview")
-    }, 1200)
+    } catch (e) {
+      if (e instanceof ApiError) {
+        setError(e.message)
+      } else {
+        setError("Failed to analyze recipe. Please try again.")
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleBack = () => {
     setStep("input")
+    setError(null)
   }
 
-  const handleCreate = () => {
-    const summary: FoodSummary = {
-      id: `recipe_${Date.now()}`,
-      name: name.trim() || "Custom Recipe",
-      category,
-      unit,
-      min_increment: minInc,
-      is_custom: true,
+  const handleCreate = async () => {
+    setSubmitting(true)
+    setError(null)
+    try {
+      const detail = await createFood({
+        name: name.trim() || "Custom Recipe",
+        category,
+        unit,
+        reference_weight_g: refWeight,
+        protein_g: protein,
+        carbs_g: carbs,
+        fat_g: fat,
+        calories_kcal: calories,
+        fiber_g: fiber,
+        min_increment: minInc,
+        notes: notes.trim() || null,
+      })
+      const summary: FoodSummary = {
+        id: detail.id,
+        name: detail.name,
+        category: detail.category,
+        unit: detail.unit,
+        min_increment: detail.min_increment,
+        is_custom: true,
+      }
+      if (mode === "picker" && onFoodCreated) {
+        onFoodCreated(summary)
+      }
+      toast.success(`"${summary.name}" created from recipe`)
+      handleClose()
+    } catch (e) {
+      if (e instanceof ApiError) {
+        setError(e.message)
+      } else {
+        setError("Failed to create food. Please try again.")
+      }
+    } finally {
+      setSubmitting(false)
     }
-    if (mode === "picker" && onFoodCreated) {
-      onFoodCreated(summary)
-    }
-    toast.success(`"${summary.name}" created from recipe`)
-    handleClose()
   }
 
   const handleClose = () => {
     setStep("input")
     setRecipeText("")
     setLoading(false)
+    setSubmitting(false)
+    setError(null)
     onClose()
   }
 
@@ -114,6 +153,12 @@ export function RecipeImportModal({ open, onClose, mode, onFoodCreated }: Recipe
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-5 py-4">
+          {error && (
+            <div className="mb-3 rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 px-3 py-2 text-xs text-red-600 dark:text-red-400">
+              {error}
+            </div>
+          )}
+
           {step === "input" && (
             <div className="flex flex-col gap-4">
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -227,11 +272,11 @@ export function RecipeImportModal({ open, onClose, mode, onFoodCreated }: Recipe
             </>
           ) : (
             <>
-              <Button variant="outline" onClick={handleBack}>
+              <Button variant="outline" onClick={handleBack} disabled={submitting}>
                 <ArrowLeft className="mr-1 h-4 w-4" /> Back
               </Button>
-              <Button onClick={handleCreate}>
-                {mode === "picker" ? "Create & Add" : "Create Food"}
+              <Button onClick={handleCreate} disabled={submitting}>
+                {submitting ? "Creating…" : mode === "picker" ? "Create & Add" : "Create Food"}
               </Button>
             </>
           )}

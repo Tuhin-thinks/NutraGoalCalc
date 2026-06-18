@@ -7,6 +7,8 @@ import type {
   Unit,
   FoodCreate,
   FoodDetail,
+  ParsedRecipe,
+  LLMStatus,
 } from "@/lib/types"
 
 const BASE = "/api/v1"
@@ -71,6 +73,18 @@ export function deleteFood(id: string): Promise<void> {
   return fetchJson(`${BASE}/foods/${encodeURIComponent(id)}`, {
     method: "DELETE",
   })
+}
+
+export function parseRecipe(text: string): Promise<ParsedRecipe> {
+  return fetchJson(`${BASE}/foods/parse-recipe`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  })
+}
+
+export function getLLMStatus(): Promise<LLMStatus> {
+  return fetchJson(`${BASE}/llm/status`)
 }
 
 export const ALL_CATEGORIES: Category[] = [

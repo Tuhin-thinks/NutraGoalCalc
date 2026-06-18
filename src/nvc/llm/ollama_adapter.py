@@ -1,14 +1,11 @@
 """Ollama local LLM adapter for recipe parsing.
 
-Uses the OpenAI-compatible client with a custom base URL pointed at Ollama's
-``/v1`` endpoint.
+Posts directly to Ollama's native ``/api/chat`` endpoint via ``httpx``.
 """
-
 import json
 import re
 
-from openai import APITimeoutError, AsyncOpenAI
-from openai import APIError as OpenAIAPIError
+import httpx
 
 from nvc.llm.protocol import (
     LLMAPIConnectionError,
@@ -55,34 +52,44 @@ def _strip_fences(raw: str) -> str:
 
 
 class OllamaAdapter:
-    """LLM adapter using a local Ollama model via the OpenAI-compatible endpoint."""
+    """LLM adapter using a local Ollama model via the native ``/api/chat`` endpoint."""
 
     def __init__(self, base_url: str = "http://localhost:11434", model: str = "llama3.2") -> None:
-        self._client = AsyncOpenAI(base_url=f"{base_url}/v1", api_key="ollama")
+        self._base_url = base_url.rstrip("/")
         self._model = model
+        self._client = httpx.AsyncClient(timeout=httpx.Timeout(300))
 
     async def parse_recipe(self, text: str) -> ParsedRecipe:
         """Send recipe text to a local Ollama model and return parsed nutritional data."""
+        payload = {
+            "model": self._model,
+            "messages": [
+                {"role": "system", "content": _SYSTEM_PROMPT},
+                {"role": "user", "content": text},
+            ],
+            "think": False,
+            "stream": False,
+        }
+
         try:
-            response = await self._client.chat.completions.create(
-                model=self._model,
-                messages=[
-                    {"role": "system", "content": _SYSTEM_PROMPT},
-                    {"role": "user", "content": text},
-                ],
+            response = await self._client.post(
+                f"{self._base_url}/api/chat",
+                json=payload,
             )
-        except APITimeoutError as exc:
+            response.raise_for_status()
+        except httpx.TimeoutException as exc:
             raise LLMTimeoutError() from exc
-        except OpenAIAPIError as exc:
+        except httpx.RequestError as exc:
             raise LLMAPIConnectionError(
-                detail=f"Ollama API error: {exc.message}"
+                detail=f"Could not connect to Ollama at {self._base_url}: {exc}"
             ) from exc
-        except Exception as exc:
+        except httpx.HTTPStatusError as exc:
             raise LLMAPIConnectionError(
-                detail=f"Could not connect to Ollama at {self._client.base_url}: {exc}"
+                detail=f"Ollama returned HTTP {exc.response.status_code}: {exc.response.text}"
             ) from exc
 
-        raw = response.choices[0].message.content
+        data = response.json()
+        raw = data.get("message", {}).get("content", "")
         if not raw:
             raise LLMInvalidResponseError(detail="Ollama returned an empty response.")
 
@@ -104,7 +111,12 @@ class OllamaAdapter:
                 detail="Ollama response is not a JSON object."
             )
 
-        missing = [field for field in ParsedRecipe.model_fields if field not in data]
+        required_fields = [
+            name
+            for name, field in ParsedRecipe.model_fields.items()
+            if field.is_required()
+        ]
+        missing = [f for f in required_fields if f not in data]
         if missing:
             raise LLMInvalidResponseError(
                 detail=f"Missing required field(s) in Ollama response: {', '.join(missing)}"

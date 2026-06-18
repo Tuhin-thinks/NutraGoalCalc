@@ -89,7 +89,11 @@ class OpenAIAdapter:
                 detail="LLM response is not a JSON object."
             )
 
-        missing = [field for field in ParsedRecipe.model_fields if field not in data]
+        required_fields = [
+            name for name, field in ParsedRecipe.model_fields.items()
+            if field.is_required()
+        ]
+        missing = [f for f in required_fields if f not in data]
         if missing:
             raise LLMInvalidResponseError(
                 detail=f"Missing required field(s) in LLM response: {', '.join(missing)}"

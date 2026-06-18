@@ -7,7 +7,7 @@ import { FoodForm } from "@/components/FoodForm"
 import { NutrientPreviewModal } from "@/components/NutrientPreviewModal"
 import { RecipeImportModal } from "@/components/RecipeImportModal"
 import { clearFoodCache } from "@/hooks/useFoods"
-import { getFoods, getFoodDetail, createFood, updateFood, deleteFood } from "@/lib/api"
+import { getFoods, getFoodDetail, createFood, updateFood, deleteFood, getLLMStatus } from "@/lib/api"
 import { categoryColor } from "@/lib/colors"
 import { cn } from "@/lib/utils"
 import type { FoodSummary, FoodCreate, FoodDetail } from "@/lib/types"
@@ -24,6 +24,7 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
   const [editData, setEditData] = useState<FoodDetail | undefined>(undefined)
   const [showForm, setShowForm] = useState(false)
   const [showRecipeModal, setShowRecipeModal] = useState(false)
+  const [llmConfigured, setLlmConfigured] = useState(false)
   const [previewFood, setPreviewFood] = useState<FoodSummary | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -43,6 +44,10 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
     load()
     return () => { cancelled = true }
   }, [refreshKey])
+
+  useEffect(() => {
+    getLLMStatus().then((s) => setLlmConfigured(s.configured)).catch(() => {})
+  }, [])
 
   const filtered = search.trim()
     ? foods.filter((f) => f.name.toLowerCase().includes(search.toLowerCase()))
@@ -90,9 +95,11 @@ export function CustomFoodsPage({ onBack }: CustomFoodsPageProps) {
           <h1 className="text-lg font-bold text-neutral-800 dark:text-neutral-200">Manage Foods</h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="outline" onClick={() => setShowRecipeModal(true)}>
-            <FileText className="mr-1 h-4 w-4" /> From Recipe
-          </Button>
+          {llmConfigured && (
+            <Button size="sm" variant="outline" onClick={() => setShowRecipeModal(true)}>
+              <FileText className="mr-1 h-4 w-4" /> From Recipe
+            </Button>
+          )}
           <Button size="sm" onClick={() => setShowForm(true)}>
             <Plus className="mr-1 h-4 w-4" /> Add Food
           </Button>

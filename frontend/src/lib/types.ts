@@ -162,3 +162,22 @@ export interface ExportData {
 export interface CalculationResponseWithTargets extends CalculationResponse {
   target_comparison: TargetComparisonEntry[]
 }
+
+export interface ParsedRecipe {
+  name: string
+  category: Category
+  unit: Unit
+  reference_weight_g: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
+  calories_kcal: number
+  fiber_g: number
+  min_increment: number
+  notes: string | null
+}
+
+export interface LLMStatus {
+  configured: boolean
+  provider: string | null
+}

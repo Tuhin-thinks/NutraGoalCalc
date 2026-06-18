@@ -16,10 +16,10 @@ export function FoodCard({ food, onClick }: FoodCardProps) {
   const color = categoryColor(food.category)
   return (
     <>
-      <button
+      <div
         onClick={() => onClick(food)}
         className={cn(
-          "flex w-full items-center gap-3 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 text-left transition-all hover:shadow-sm dark:hover:shadow-black/20",
+          "flex w-full cursor-pointer items-center gap-3 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2.5 transition-all hover:shadow-sm dark:hover:shadow-black/20",
           "border-l-4",
           color.border,
         )}
@@ -37,7 +37,7 @@ export function FoodCard({ food, onClick }: FoodCardProps) {
           <Eye className="h-4 w-4" />
         </button>
         <CategoryBadge category={food.category} />
-      </button>
+      </div>
       <NutrientPreviewModal food={showPreview ? food : null} onClose={() => setShowPreview(false)} />
     </>
   )
